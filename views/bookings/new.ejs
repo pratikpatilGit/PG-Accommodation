@@ -1,0 +1,250 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container-fluid px-4 py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="booking-card">
+        <div class="booking-header">
+          <h3 class="booking-title">Book Property</h3>
+          <div class="booking-subtitle">Complete your booking details</div>
+        </div>
+
+        <div class="booking-content">
+          <!-- Property Info Card -->
+          <div class="property-info-card">
+            <div class="property-header">
+              <h4 class="property-title"><%= listing.title %></h4>
+              <div class="property-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <%= listing.location %>
+              </div>
+            </div>
+            
+            <div class="property-details">
+              <div class="detail-item">
+                <div class="detail-label">Monthly Rent</div>
+                <div class="detail-value">₹<%= listing.rent.toLocaleString("en-IN") %></div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label">Pre-reservation</div>
+                <div class="detail-value">₹<%= listing.pre_reservation_amount.toLocaleString("en-IN") %></div>
+              </div>
+            </div>
+          </div>
+
+          <form id="bookingForm" action="/listings/<%= listing._id %>/bookings" method="POST" class="booking-form">
+            <input type="hidden" name="listingId" value="<%= listing._id %>">
+            
+            <!-- Date Selection -->
+            <div class="form-section">
+              <h5 class="section-title">Select Dates</h5>
+              <div class="date-selection">
+                <div class="date-input">
+                  <label for="startDate">Start Date</label>
+                  <input type="date" class="form-control" id="startDate" name="startDate" required 
+                         min="<%= new Date().toISOString().split('T')[0] %>">
+                </div>
+                <div class="date-input">
+                  <label for="endDate">End Date</label>
+                  <input type="date" class="form-control" id="endDate" name="endDate" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="form-section">
+              <h5 class="section-title">Payment Method</h5>
+              <div class="payment-methods">
+                <div class="payment-option">
+                  <input type="radio" name="paymentMethod" id="creditCard" value="credit card" checked>
+                  <label for="creditCard">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Credit Card</span>
+                  </label>
+                </div>
+                <div class="payment-option">
+                  <input type="radio" name="paymentMethod" id="debitCard" value="debit card">
+                  <label for="debitCard">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Debit Card</span>
+                  </label>
+                </div>
+                <div class="payment-option">
+                  <input type="radio" name="paymentMethod" id="upi" value="upi">
+                  <label for="upi">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>UPI</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-calendar-check"></i>
+                Proceed to Payment
+              </button>
+              <a href="/listings/<%= listing._id %>" class="btn-secondary">
+                <i class="fas fa-times"></i>
+                Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('bookingForm');
+  const startDateInput = document.getElementById('startDate');
+  const endDateInput = document.getElementById('endDate');
+
+  // Set minimum end date to start date
+  startDateInput.addEventListener('change', function() {
+    endDateInput.min = this.value;
+    if (endDateInput.value && endDateInput.value < this.value) {
+      endDateInput.value = this.value;
+    }
+  });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Get form values
+    const startDate = startDateInput.value;
+    const endDate = endDateInput.value;
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    const listingId = document.querySelector('input[name="listingId"]').value;
+
+    // Validate dates
+    if (!startDate || !endDate) {
+      alert('Please select both start and end dates');
+      return;
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      alert('Please select valid dates');
+      return;
+    }
+
+    if (start >= end) {
+      alert('End date must be after start date');
+      return;
+    }
+
+    try {
+      // Prepare request data
+      const requestData = {
+        listingId: listingId,
+        startDate: startDate,
+        endDate: endDate,
+        paymentMethod: paymentMethod
+      };
+
+      // Send request to create booking
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(requestData)
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        // Initialize Razorpay
+        const options = {
+          key: data.key,
+          amount: data.amount,
+          currency: data.currency,
+          name: "PG Accommodation",
+          description: "Booking Advance Payment",
+          order_id: data.orderId,
+          handler: function(response) {
+            // Handle successful payment
+            fetch('/payments/callback', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+              },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            }).then(async response => {
+              const data = await response.json();
+              if (response.ok && data.success) {
+                // Redirect to the booking show page
+                window.location.href = `/bookings/${data.bookingId}`;
+              } else {
+                console.error('Payment verification failed:', data);
+                alert(data.error || 'Payment verification failed. Please contact support.');
+              }
+            }).catch(error => {
+              console.error('Payment verification error:', error);
+              alert('Payment verification failed. Please try again or contact support.');
+            });
+          },
+          prefill: {
+            name: "<%= typeof user !== 'undefined' && user && user.username ? user.username : '' %>",
+            email: "<%= typeof user !== 'undefined' && user && user.email ? user.email : '' %>",
+            contact: "<%= typeof user !== 'undefined' && user && user.phoneNumber ? user.phoneNumber : '' %>"
+          },
+          theme: {
+            color: "#3399cc"
+          }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+        rzp.on('payment.failed', function(response) {
+          // Handle payment failure
+          const formData = new FormData();
+          formData.append('razorpay_order_id', data.orderId);
+
+          fetch('/payments/failure', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+              razorpay_order_id: data.orderId
+            })
+          }).then(async response => {
+            const data = await response.json();
+            if (response.ok && data.success) {
+              window.location.href = `/bookings/${data.bookingId}`;
+            } else {
+              console.error('Payment failure handling failed:', data);
+              alert(data.error || 'Failed to record payment failure. Please contact support.');
+            }
+          }).catch(error => {
+            console.error('Payment failure handling error:', error);
+            alert('Failed to record payment failure. Please contact support.');
+          });
+        });
+      } else {
+        alert(data.message || 'An error occurred while creating the booking');
+      }
+    } catch (error) {
+      alert('An error occurred while processing your booking. Please try again.');
+    }
+  });
+});
+</script>

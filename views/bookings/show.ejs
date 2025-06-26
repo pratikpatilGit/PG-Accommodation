@@ -1,0 +1,212 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container-fluid px-4 py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="booking-card">
+        <div class="booking-header <%= booking.status === 'confirmed' ? 'success' : booking.status === 'cancelled' ? 'error' : 'warning' %>">
+          <div class="status-icon">
+            <% if(booking.status === 'confirmed') { %>
+              <i class="fas fa-check-circle"></i>
+            <% } else if(booking.status === 'cancelled') { %>
+              <i class="fas fa-times-circle"></i>
+            <% } else if(booking.status === 'reserved') { %>
+              <i class="fas fa-clock"></i>
+            <% } %>
+          </div>
+          <h3 class="status-title">
+            <% if(booking.status === 'confirmed') { %>
+              Booking Confirmed
+            <% } else if(booking.status === 'cancelled') { %>
+              Booking Cancelled
+            <% } else if(booking.status === 'reserved') { %>
+              Dates Reserved
+            <% } %>
+          </h3>
+          <% if(booking.status === 'reserved') { %>
+            <p class="status-message">Complete payment to confirm your booking</p>
+          <% } %>
+        </div>
+
+        <div class="booking-content">
+          <!-- Property Details -->
+          <div class="info-section property-details-section">
+            <h4 class="section-title">
+              <i class="fas fa-home"></i>
+              Property Details
+            </h4>
+            <div class="property-info">
+              <div class="property-image-container">
+                <% if(booking.listing && booking.listing.images && booking.listing.images.length > 0) { %>
+                  <img src="<%= booking.listing.images[0].url %>" alt="<%= booking.listing.title || 'Property Image' %>" class="property-image">
+                <% } else { %>
+                  <img src="https://picsum.photos/800/600?random=<%= Math.floor(Math.random() * 1000) %>" alt="Property Image" class="property-image">
+                <% } %>
+                <div class="property-price">
+                  <span class="price-label">Monthly Rent</span>
+                  <span class="price-value">₹<%= booking.listing ? booking.listing.rent.toLocaleString("en-IN") : '0' %></span>
+                </div>
+              </div>
+              <div class="property-details">
+                <div class="property-header">
+                  <h5 class="property-title"><%= booking.listing ? booking.listing.title : 'Property Not Available' %></h5>
+                  <div class="property-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <%= booking.listing ? booking.listing.location : 'Location Not Available' %>
+                  </div>
+                </div>
+                <div class="property-features">
+                  <div class="feature-group">
+                    <% if(booking.listing) { %>
+                      <div class="feature">
+                        <i class="fas fa-bed"></i>
+                        <span class="feature-label">Bedrooms</span>
+                        <span class="feature-value"><%= booking.listing.bedrooms || 0 %></span>
+                      </div>
+                      <div class="feature">
+                        <i class="fas fa-bath"></i>
+                        <span class="feature-label">Bathrooms</span>
+                        <span class="feature-value"><%= booking.listing.bathrooms || 0 %></span>
+                      </div>
+                      <div class="feature">
+                        <i class="fas fa-users"></i>
+                        <span class="feature-label">Max Guests</span>
+                        <span class="feature-value"><%= booking.listing.maxGuests || 0 %></span>
+                      </div>
+                    <% } else { %>
+                      <div class="feature">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span class="feature-label">Property Details</span>
+                        <span class="feature-value">Not Available</span>
+                      </div>
+                    <% } %>
+                  </div>
+                  <div class="feature-group">
+                    <% if(booking.listing) { %>
+                      <div class="feature">
+                        <i class="fas fa-ruler-combined"></i>
+                        <span class="feature-label">Area</span>
+                        <span class="feature-value"><%= booking.listing.area || 0 %> sq.ft</span>
+                      </div>
+                      <div class="feature">
+                        <i class="fas fa-building"></i>
+                        <span class="feature-label">Property Type</span>
+                        <span class="feature-value"><%= booking.listing.propertyType || 'Not Specified' %></span>
+                      </div>
+                      <div class="feature">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="feature-label">Available From</span>
+                        <span class="feature-value"><%= booking.listing.availableFrom ? new Date(booking.listing.availableFrom).toLocaleDateString() : 'Not Specified' %></span>
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+                <div class="property-description">
+                  <h6 class="description-title">Description</h6>
+                  <p class="description-text"><%= booking.listing ? booking.listing.description : 'No description available' %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Details -->
+          <div class="info-section">
+            <h4 class="section-title">
+              <i class="fas fa-calendar-alt"></i>
+              Booking Details
+            </h4>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="label">Check-in</span>
+                <span class="value"><%= booking.startDate.toLocaleDateString() %></span>
+              </div>
+              <div class="info-item">
+                <span class="label">Check-out</span>
+                <span class="value"><%= booking.endDate.toLocaleDateString() %></span>
+              </div>
+              <div class="info-item">
+                <span class="label">Duration</span>
+                <span class="value"><%= booking.duration %> days</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Total Amount</span>
+                <span class="value">₹<%= booking.totalPrice.toLocaleString("en-IN") %></span>
+              </div>
+              <% if(booking.status === 'reserved') { %>
+                <div class="info-item reservation-notice">
+                  <span class="label">Reservation Status</span>
+                  <span class="value">Held until <%= new Date(Date.now() + 24*60*60*1000).toLocaleString() %></span>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Payment Status -->
+          <div class="info-section">
+            <h4 class="section-title">
+              <i class="fas fa-credit-card"></i>
+              Payment Status
+            </h4>
+            <div class="payment-status">
+              <% if(booking.payment && booking.payment.status === 'succeeded') { %>
+                <div class="status-badge succeeded">
+                  Payment Completed
+                </div>
+                <p class="payment-details">
+                  Transaction ID: <%= booking.payment.transactionId %><br>
+                  Amount: ₹<%= booking.payment.amount.toLocaleString("en-IN") %><br>
+                  Date: <%= booking.payment.timestamp.toLocaleString() %>
+                </p>
+              <% } else if(booking.status === 'reserved') { %>
+                <div class="payment-required">
+                  <div class="status-badge pending">
+                    Payment Required
+                  </div>
+                  <p class="payment-message">
+                    Complete payment within 24 hours to confirm your booking.<br>
+                    After this period, the reservation will be released.
+                  </p>
+                </div>
+              <% } else { %>
+                <p class="text-warning">Payment pending</p>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <% if(booking.status === 'confirmed') { %>
+              <a href="/listings/<%= booking.listing._id %>" class="btn-primary">
+                <i class="fas fa-home"></i>
+                View Property
+              </a>
+              <form action="/bookings/<%= booking._id %>/cancel" method="POST" class="cancel-form">
+                <button type="submit" class="btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">
+                  <i class="fas fa-times"></i>
+                  Cancel Booking
+                </button>
+              </form>
+            <% } else if(booking.status === 'reserved') { %>
+              <a href="/payments/new?bookingId=<%= booking._id %>" class="btn-primary">
+                <i class="fas fa-credit-card"></i>
+                Complete Payment
+              </a>
+              <form action="/bookings/<%= booking._id %>/cancel" method="POST" class="cancel-form">
+                <button type="submit" class="btn-danger" onclick="return confirm('Are you sure you want to cancel this reservation?')">
+                  <i class="fas fa-times"></i>
+                  Cancel Reservation
+                </button>
+              </form>
+            <% } else { %>
+              <a href="/listings" class="btn-primary">
+                <i class="fas fa-search"></i>
+                Find Another Property
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

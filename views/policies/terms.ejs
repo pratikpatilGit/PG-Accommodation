@@ -1,0 +1,210 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container-fluid px-4 py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="policy-card">
+        <div class="policy-header">
+          <h1 class="policy-title">Terms of Service</h1>
+          <p class="policy-date">Last updated: <%= new Date().toLocaleDateString() %></p>
+        </div>
+
+        <div class="policy-content">
+          <section class="policy-section">
+            <h2>1. Agreement to Terms</h2>
+            <p>By accessing and using PG Accommodation's services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
+          </section>
+
+          <section class="policy-section">
+            <h2>2. User Accounts</h2>
+            <h3>2.1 Account Creation</h3>
+            <ul>
+              <li>You must be at least 18 years old to create an account</li>
+              <li>You must provide accurate and complete information</li>
+              <li>You are responsible for maintaining account security</li>
+              <li>You must notify us of any unauthorized access</li>
+            </ul>
+
+            <h3>2.2 Account Termination</h3>
+            <ul>
+              <li>We reserve the right to suspend or terminate accounts</li>
+              <li>Violation of terms may result in immediate termination</li>
+              <li>You may request account deletion at any time</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>3. Booking and Payments</h2>
+            <h3>3.1 Booking Process</h3>
+            <ul>
+              <li>Bookings are subject to availability</li>
+              <li>Prices are subject to change without notice</li>
+              <li>Payment must be completed to confirm booking</li>
+              <li>Cancellation policies apply to all bookings</li>
+            </ul>
+
+            <h3>3.2 Payment Terms</h3>
+            <ul>
+              <li>All payments are processed securely</li>
+              <li>Refunds are subject to our cancellation policy</li>
+              <li>Additional charges may apply for services</li>
+              <li>Payment disputes must be reported within 24 hours</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>4. Property Listings</h2>
+            <h3>4.1 Listing Requirements</h3>
+            <ul>
+              <li>All listings must be accurate and up-to-date</li>
+              <li>Photos must accurately represent the property</li>
+              <li>Pricing must be transparent and complete</li>
+              <li>Property details must be truthful</li>
+            </ul>
+
+            <h3>4.2 Property Management</h3>
+            <ul>
+              <li>Property owners must maintain their listings</li>
+              <li>Availability must be kept current</li>
+              <li>Property conditions must be maintained</li>
+              <li>Guest communications must be timely</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>5. User Conduct</h2>
+            <p>Users must not:</p>
+            <ul>
+              <li>Violate any laws or regulations</li>
+              <li>Harass or discriminate against others</li>
+              <li>Post false or misleading information</li>
+              <li>Attempt to manipulate the system</li>
+              <li>Use the service for illegal purposes</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>6. Limitation of Liability</h2>
+            <p>PG Accommodation is not liable for:</p>
+            <ul>
+              <li>Property conditions or amenities</li>
+              <li>Guest or host behavior</li>
+              <li>Service interruptions</li>
+              <li>Third-party actions</li>
+              <li>Force majeure events</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>7. Changes to Terms</h2>
+            <p>We reserve the right to modify these terms at any time. Users will be notified of significant changes. Continued use of the service constitutes acceptance of modified terms.</p>
+          </section>
+
+          <section class="policy-section">
+            <h2>8. Contact Information</h2>
+            <div class="contact-info">
+              <p><strong>Email:</strong> terms@pgaccommodation.com</p>
+              <p><strong>Phone:</strong> +91 1234567890</p>
+              <p><strong>Address:</strong> 123 Main Street, City, State, India</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .policy-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .policy-header {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .policy-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .policy-date {
+    margin: 0.5rem 0 0;
+    opacity: 0.9;
+  }
+
+  .policy-content {
+    padding: 2rem;
+  }
+
+  .policy-section {
+    margin-bottom: 2rem;
+  }
+
+  .policy-section h2 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #2ecc71;
+  }
+
+  .policy-section h3 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .policy-section p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .policy-section ul {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .policy-section li {
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+
+  .contact-info p {
+    margin: 0.5rem 0;
+  }
+
+  .contact-info strong {
+    color: #2c3e50;
+  }
+
+  @media (max-width: 768px) {
+    .policy-header {
+      padding: 1.5rem;
+    }
+
+    .policy-title {
+      font-size: 1.5rem;
+    }
+
+    .policy-content {
+      padding: 1.5rem;
+    }
+  }
+</style> 

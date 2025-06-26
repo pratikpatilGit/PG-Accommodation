@@ -1,0 +1,558 @@
+<%- layout("/layouts/boilerplate") %>
+<script>
+  const mapToken = "<%= process.env.MAP_TOKEN %>";
+  const listing = <%- JSON.stringify(listing) %>;
+</script>
+
+<body>
+  <button class="back-button" onclick="goBack()">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+
+  <div class="container-fluid px-4">
+    <div class="listing-header">
+      <h1 class="listing-title"><%= listing.title %></h1>
+    </div>
+    
+    <div class="gallery-container">
+      <div class="gallery-grid">
+        <div class="main-image" onclick="openGallery(0)">
+          <img src="<%= listing.image[0].url %>" alt="Main Property Image">
+          <div class="image-overlay">
+            <i class="fas fa-expand"></i>
+          </div>
+        </div>
+        <div class="side-images">
+          <% for(let i = 1; i < Math.min(3, listing.image.length); i++) { %>
+            <div class="side-image" onclick="openGallery(<%= i %>)">
+              <img src="<%= listing.image[i].url %>" alt="Property Image <%= i + 1 %>">
+              <div class="image-overlay">
+                <i class="fas fa-expand"></i>
+              </div>
+            </div>
+          <% } %>
+          <% if (listing.image.length > 3) { %>
+            <button class="more-photos" onclick="openGallery(0)">
+              +<%= listing.image.length - 3 %> more photos
+            </button>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery Modal -->
+  <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header border-0 p-2">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white; padding: 1rem; margin: 0.5rem; z-index: 1050;"></button>
+        </div>
+        <div class="modal-body p-0">
+          <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <% listing.image.forEach((img, index) => { %>
+                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                  <img src="<%= img.url %>" class="d-block w-100" alt="Property Image <%= index + 1 %>">
+                </div>
+              <% }) %>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid px-4">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="listing-details my-3">
+          <div class="listing-header d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start">
+  
+        <!-- Location Badge -->
+        <div class="location-badge px-3 py-2 rounded shadow-sm d-flex align-items-start gap-2 bg-light">
+          <i class="fas fa-map-marker-alt text-primary mt-1"></i>
+          <span><%= listing.location %></span>
+        </div>
+
+        <!-- Rent Display -->
+        <div class="rent-display px-3 py-2 rounded shadow-sm bg-primary text-white text-nowrap fw-semibold">
+          ₹<%= listing.rent.toLocaleString("en-IN") %> <small class="fw-normal">/month</small>
+        </div>
+
+      </div>
+
+          
+          <div class="property-stats">
+            <div class="stat-item">
+              <i class="fas fa-user-friends"></i>
+              <span><%= listing.capacity %> guests</span>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-door-closed"></i>
+              <span><%= listing.bedrooms %> bedrooms</span>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-bath"></i>
+              <span><%= listing.bathrooms %> bathrooms</span>
+            </div>
+          </div>
+
+          <div class="listing-info">
+            <div class="info-section">
+              <h5><i class="fas fa-info-circle"></i> Basic Information</h5>
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="label">Price per month</span>
+                  <span class="value">₹<%= listing.rent.toLocaleString("en-IN") %></span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Pre-reservation</span>
+                  <span class="value">₹<%= (listing.pre_reservation_amount || 0).toLocaleString("en-IN") %></span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Location</span>
+                  <span class="value"><%= listing.location %></span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Capacity</span>
+                  <span class="value"><%= listing.capacity %> guests</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <% if(currUser && (!listing.owner || !currUser._id.equals(listing.owner._id))) { %>
+            <div class="booking-action">
+              <a href="/listings/<%= listing._id %>/bookings/new" class="book-now-btn">
+                <i class="fas fa-calendar-check"></i> Book Now
+              </a>
+            </div>
+          <% } else if(!currUser) { %>
+            <div class="booking-action">
+              <div class="login-prompt">
+                <p>Please login to book this property</p>
+                <a href="/login?redirect=<%= encodeURIComponent('/listings/' + listing._id) %>" class="login-btn">
+                  <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="owner-details">
+          <div class="owner-header">
+            <img
+              src="<%= listing.profileImage ? listing.profileImage.url : (listing.owner.profileImage ? listing.owner.profileImage.url : 'https://cdn-icons-png.flaticon.com/512/149/149071.png') %>"
+              class="owner-avatar"
+              alt="Owner Avatar"
+              onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'"
+            />
+            <div class="owner-info">
+              <h4 class="owner-name">
+                <%= listing.userName ? (listing.userName.charAt(0).toUpperCase() + listing.userName.slice(1).toLowerCase()) : listing.owner.username %>
+              </h4>
+              <p class="owner-title">Property Owner</p>
+            </div>
+            <% if(currUser && listing.owner && currUser._id && listing.owner._id && currUser._id.equals(listing.owner._id)) { %>
+              <div class="action-buttons">
+                <a href="/listings/<%= listing._id %>/edit" class="action-btn edit-btn">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form method="POST" action="/listings/<%= listing._id%>?_method=delete" class="d-inline">
+                  <button class="action-btn delete-btn">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </form>
+              </div>
+            <% } %>
+          </div>
+
+          <div class="owner-contact">
+            <h5><i class="fas fa-address-card"></i> Contact Information</h5>
+            <div class="contact-grid">
+              <div class="contact-item">
+                <div class="icon-wrapper">
+                  <i class="fas fa-phone"></i>
+                </div>
+                <div class="contact-info">
+                  <span class="label">Phone</span>
+                  <span class="value"><%= listing.phoneNumber || listing.owner.phoneNumber || 'Not provided' %></span>
+                </div>
+              </div>
+              <div class="contact-item">
+  <div class="icon-wrapper">
+    <i class="fas fa-envelope"></i>
+  </div>
+  <div class="contact-info">
+    <span class="label">Email</span>
+    <span class="value text-break word-wrap-break-word d-block" style="word-break: break-word;">
+      <%= listing.email || listing.owner.email || 'Not provided' %>
+    </span>
+  </div>
+</div>
+
+              <div class="contact-item">
+                <div class="icon-wrapper">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="contact-info">
+                  <span class="label">Address</span>
+                  <span class="value">
+                    <% if (listing.address) { %>
+                      <%= listing.address.street %>, 
+                      <%= listing.address.city %>, 
+                      <%= listing.address.state %> - 
+                      <%= listing.address.zipCode %>
+                    <% } else if (listing.owner.address) { %>
+                      <%= listing.owner.address.street %>, 
+                      <%= listing.owner.address.city %>, 
+                      <%= listing.owner.address.state %> - 
+                      <%= listing.owner.address.zipCode %>
+                    <% } else { %>
+                      Address not provided
+                    <% } %>
+                  </span>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="icon-wrapper">
+                  <i class="fas fa-globe"></i>
+                </div>
+                <div class="contact-info">
+                  <span class="label">Country</span>
+                  <span class="value"><%= listing.country || listing.owner.country || 'India' %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid px-4 mt-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="about-section">
+          <div class="about-header">
+            <i class="fas fa-info-circle"></i>
+            <h4>About this place</h4>
+          </div>
+          <div class="description-container">
+            <p class="description-text" id="listing-description"><%= listing.description %></p>
+            <div class="description-suggestions" id="description-suggestions">
+              <div class="suggestion-item" onclick="selectDescription(this)">
+                "Welcome to our cozy PG accommodation! This well-maintained space offers modern amenities and a comfortable living environment. Located in a peaceful neighborhood, it's perfect for students and working professionals seeking a home away from home."
+              </div>
+              <div class="suggestion-item" onclick="selectDescription(this)">
+                "Experience comfortable living in our thoughtfully designed PG. With spacious rooms, essential amenities, and a friendly atmosphere, we ensure a pleasant stay. Enjoy the convenience of nearby markets, public transport, and educational institutions."
+              </div>
+              <div class="suggestion-item" onclick="selectDescription(this)">
+                "Discover your ideal living space in our premium PG accommodation. We pride ourselves on maintaining high standards of cleanliness and security. Our property features modern facilities, regular maintenance, and a supportive staff to assist you."
+              </div>
+              <div class="suggestion-item" onclick="selectDescription(this)">
+                "Step into our welcoming PG where comfort meets convenience. Our accommodation offers well-ventilated rooms, modern bathrooms, and a fully equipped kitchen. The location provides easy access to major landmarks while ensuring a quiet, residential setting."
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid px-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="amenities-section">
+          <h4 class="mb-0">What this place offers</h4>
+          <div class="amenities-grid">
+            <% if (listing.amenities && listing.amenities.length > 0) { %>
+              <% listing.amenities.forEach(amenity => { %>
+                <div class="amenity-card">
+                  <% let icon = 'check'; %>
+                  <% if (amenity === 'AC') icon = 'snowflake'; %>
+                  <% if (amenity === 'WiFi') icon = 'wifi'; %>
+                  <% if (amenity === 'Parking') icon = 'parking'; %>
+                  <% if (amenity === 'Kitchen') icon = 'utensils'; %>
+                  <% if (amenity === 'TV') icon = 'tv'; %>
+                  <% if (amenity === 'Laundry') icon = 'tshirt'; %>
+                  <% if (amenity === 'Security') icon = 'shield-alt'; %>
+                  <% if (amenity === 'Gym') icon = 'dumbbell'; %>
+                  <i class="fas fa-<%= icon %>"></i>
+                  <span><%= amenity %></span>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p class="text-muted">No amenities listed</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid px-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="reviews-section">
+          <% if(currUser) { %>
+          <div class="review-form-container">
+            <div class="review-form-header">
+              <i class="fas fa-comment-alt"></i>
+              <h4>Leave a Review</h4>
+            </div>
+            <form
+              action="/listings/<%= listing._id %>/reviews"
+              method="POST"
+              class="review-form"
+            >
+              <div class="rating-container">
+                <label class="rating-label">Rating</label>
+                <fieldset class="starability-slot">
+                  <input
+                    type="radio"
+                    id="no-rate"
+                    class="input-no-rate"
+                    name="review[rating]"
+                    value="1"
+                    checked
+                    aria-label="No rating."
+                  />
+                  <input
+                    type="radio"
+                    id="first-rate1"
+                    name="review[rating]"
+                    value="1"
+                  />
+                  <label for="first-rate1" title="Terrible">1 star</label>
+                  <input
+                    type="radio"
+                    id="first-rate2"
+                    name="review[rating]"
+                    value="2"
+                  />
+                  <label for="first-rate2" title="Not good">2 stars</label>
+                  <input
+                    type="radio"
+                    id="first-rate3"
+                    name="review[rating]"
+                    value="3"
+                  />
+                  <label for="first-rate3" title="Average">3 stars</label>
+                  <input
+                    type="radio"
+                    id="first-rate4"
+                    name="review[rating]"
+                    value="4"
+                  />
+                  <label for="first-rate4" title="Very good">4 stars</label>
+                  <input
+                    type="radio"
+                    id="first-rate5"
+                    name="review[rating]"
+                    value="5"
+                  />
+                  <label for="first-rate5" title="Amazing">5 stars</label>
+                </fieldset>
+              </div>
+
+              <div class="comment-container">
+                <label for="comment" class="comment-label">Your Review</label>
+                <textarea
+                  name="review[comment]"
+                  id="comment"
+                  rows="4"
+                  class="comment-input"
+                  placeholder="Share your experience..."
+                  required
+                ></textarea>
+                <div class="invalid-feedback">Please add your review comments</div>
+              </div>
+
+              <div class="review-suggestions">
+                <button class="suggestions-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#reviewSuggestions" aria-expanded="false" aria-controls="reviewSuggestions">
+                  <i class="fas fa-lightbulb"></i> Review Suggestions
+                  <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="collapse" id="reviewSuggestions">
+                  <div class="suggestions-content">
+                    <div class="suggestion-item" onclick="selectReview(this, 5)">
+                      "This PG accommodation exceeded my expectations! The rooms are spacious, well-maintained, and the amenities are top-notch. The owner is very helpful and the location is perfect for students. Highly recommended!"
+                    </div>
+                    <div class="suggestion-item" onclick="selectReview(this, 4)">
+                      "Great place to stay! The rooms are clean and comfortable, with all necessary amenities. The location is convenient and the staff is friendly. Would definitely stay here again."
+                    </div>
+                    <div class="suggestion-item" onclick="selectReview(this, 3)">
+                      "Decent accommodation with basic amenities. The rooms are clean and the location is good. Could use some improvements in maintenance but overall a satisfactory experience."
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button class="submit-review-btn">
+                <i class="fas fa-paper-plane"></i>
+                Submit Review
+              </button>
+            </form>
+          </div>
+          <% } %>
+
+          <% if (listing.reviews.length > 0) { %>
+          <div class="reviews-list-container">
+            <div class="reviews-header">
+              <i class="fas fa-star"></i>
+              <h4>Reviews (<%= listing.reviews.length %>)</h4>
+            </div>
+            <div class="reviews-grid">
+              <% for(review of listing.reviews) { %>
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-info">
+                    <img
+                      class="reviewer-avatar"
+                      src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                      alt="<%= review.author.username %>"
+                    />
+                    <div class="reviewer-details">
+                      <h5 class="reviewer-name">@<%= review.author.username %></h5>
+                      <div class="review-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <%= review.createdAt.toLocaleDateString() %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="review-rating">
+                    <p class="starability-result" data-rating="<%= review.rating %>"></p>
+                  </div>
+                </div>
+                <div class="review-content">
+                  <p class="review-text"><%= review.comment %></p>
+                </div>
+                <% if(currUser && review.author && currUser._id && review.author._id && currUser._id.equals(review.author._id)) { %>
+                <div class="review-actions">
+                  <form
+                    method="post"
+                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                    class="delete-review-form"
+                  >
+                    <button type="submit" class="delete-review-btn">
+                      <i class="fas fa-trash-alt"></i>
+                      Delete Review
+                    </button>
+                  </form>
+                </div>
+                <% } %>
+              </div>
+              <% } %>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid px-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="map-section">
+          <div class="map-container">
+            <div class="map-header">
+              <i class="fas fa-map-marked-alt"></i>
+              <h3>Location</h3>
+              <p class="map-address">
+                <i class="fas fa-location-dot"></i>
+                <%= listing.address.street %>, <%= listing.address.city %>, <%= listing.address.state %> <%= listing.address.zipCode %>
+              </p>
+            </div>
+            <div class="map-wrapper">
+              <div id="map"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all modals
+    var modals = document.querySelectorAll('.modal');
+    modals.forEach(function(modal) {
+      new bootstrap.Modal(modal);
+    });
+
+    // Initialize all carousels
+    var carousels = document.querySelectorAll('.carousel');
+    carousels.forEach(function(carousel) {
+      new bootstrap.Carousel(carousel);
+    });
+
+    // Function to open gallery
+    window.openGallery = function(startIndex) {
+      const modal = new bootstrap.Modal(document.getElementById('galleryModal'));
+      const carousel = new bootstrap.Carousel(document.getElementById('imageCarousel'));
+      carousel.to(startIndex);
+      modal.show();
+    }
+
+    // Add keyboard event listener for ESC key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('galleryModal'));
+        if (modal) {
+          modal.hide();
+        }
+      }
+    });
+  });
+</script>
+
+<script>
+function toggleDescriptionSuggestions() {
+  const suggestions = document.getElementById('description-suggestions');
+  suggestions.style.display = suggestions.style.display === 'none' ? 'block' : 'none';
+}
+
+function selectDescription(element) {
+  const description = element.innerText;
+  document.getElementById('listing-description').innerText = description;
+  toggleDescriptionSuggestions();
+}
+
+// Add click event to description text to show suggestions
+document.getElementById('listing-description').addEventListener('click', toggleDescriptionSuggestions);
+</script>
+
+<script>
+function selectReview(element, rating) {
+  const reviewText = element.innerText;
+  document.getElementById('comment').value = reviewText;
+  
+  // Set the rating
+  const ratingInput = document.querySelector(`input[name="review[rating]"][value="${rating}"]`);
+  if (ratingInput) {
+    ratingInput.checked = true;
+  }
+}
+</script>
+
+<script src="/js/map.js"></script>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>

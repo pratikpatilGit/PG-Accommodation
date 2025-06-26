@@ -1,0 +1,141 @@
+<style>
+  .notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 400px;
+    width: 90%;
+  }
+
+  .custom-alert {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideIn 0.5s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .custom-alert.success {
+    border-left-color: #28a745;
+  }
+
+  .custom-alert.error {
+    border-left-color: #dc3545;
+  }
+
+  .alert-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .alert-icon {
+    font-size: 1.25rem;
+  }
+
+  .alert-icon.success {
+    color: #28a745;
+  }
+
+  .alert-icon.error {
+    color: #dc3545;
+  }
+
+  .alert-message {
+    color: #333;
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .alert-close {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 0.25rem;
+    margin-left: 0.5rem;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+  }
+
+  .alert-close:hover {
+    color: #333;
+  }
+</style>
+
+<div class="notification-container">
+  <% if (success && success.length) { %>
+    <div class="custom-alert success" role="alert">
+      <div class="alert-content">
+        <i class="fas fa-check-circle alert-icon success"></i>
+        <p class="alert-message"><%= success %></p>
+      </div>
+      <button type="button" class="alert-close" data-bs-dismiss="alert" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  <% } %>
+
+  <% if (error && error.length) { %>
+    <div class="custom-alert error" role="alert">
+      <div class="alert-content">
+        <i class="fas fa-exclamation-circle alert-icon error"></i>
+        <p class="alert-message"><%= error %></p>
+      </div>
+      <button type="button" class="alert-close" data-bs-dismiss="alert" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  <% } %>
+</div>
+
+<script>
+  // Auto-dismiss notifications after 5 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.custom-alert');
+    alerts.forEach(alert => {
+      setTimeout(() => {
+        if (alert) {
+          alert.style.opacity = '0';
+          alert.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            alert.remove();
+          }, 500);
+        }
+      }, 5000);
+    });
+
+    // Add click handler for close buttons
+    const closeButtons = document.querySelectorAll('.alert-close');
+    closeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const alert = this.closest('.custom-alert');
+        alert.style.opacity = '0';
+        alert.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          alert.remove();
+        }, 500);
+      });
+    });
+  });
+</script>

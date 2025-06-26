@@ -1,0 +1,210 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container-fluid px-4 py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="policy-card">
+        <div class="policy-header">
+          <h1 class="policy-title">Cookie Policy</h1>
+          <p class="policy-date">Last updated: <%= new Date().toLocaleDateString() %></p>
+        </div>
+
+        <div class="policy-content">
+          <section class="policy-section">
+            <h2>1. What Are Cookies</h2>
+            <p>Cookies are small text files that are placed on your device when you visit our website. They help us provide you with a better experience and enable certain features to work properly.</p>
+          </section>
+
+          <section class="policy-section">
+            <h2>2. Types of Cookies We Use</h2>
+            <h3>2.1 Essential Cookies</h3>
+            <ul>
+              <li>Session management</li>
+              <li>User authentication</li>
+              <li>Security features</li>
+              <li>Basic website functionality</li>
+            </ul>
+
+            <h3>2.2 Functional Cookies</h3>
+            <ul>
+              <li>Remember your preferences</li>
+              <li>Language settings</li>
+              <li>Currency preferences</li>
+              <li>Search history</li>
+            </ul>
+
+            <h3>2.3 Analytics Cookies</h3>
+            <ul>
+              <li>Website usage statistics</li>
+              <li>Performance monitoring</li>
+              <li>User behavior analysis</li>
+              <li>Improvement tracking</li>
+            </ul>
+
+            <h3>2.4 Marketing Cookies</h3>
+            <ul>
+              <li>Personalized advertisements</li>
+              <li>Social media integration</li>
+              <li>Content recommendations</li>
+              <li>Campaign tracking</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>3. How We Use Cookies</h2>
+            <p>We use cookies to:</p>
+            <ul>
+              <li>Keep you signed in</li>
+              <li>Remember your preferences</li>
+              <li>Understand how you use our website</li>
+              <li>Improve our services</li>
+              <li>Provide personalized content</li>
+              <li>Ensure security</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>4. Third-Party Cookies</h2>
+            <p>Some cookies are placed by third-party services that appear on our pages. These include:</p>
+            <ul>
+              <li>Payment processors</li>
+              <li>Analytics providers</li>
+              <li>Social media platforms</li>
+              <li>Advertising networks</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>5. Managing Cookies</h2>
+            <p>You can control and manage cookies in your browser settings. However, please note that disabling certain cookies may affect the functionality of our website.</p>
+            <h3>5.1 How to Manage Cookies</h3>
+            <ul>
+              <li>Browser settings</li>
+              <li>Privacy tools</li>
+              <li>Cookie consent management</li>
+              <li>Opt-out options</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>6. Cookie Duration</h2>
+            <h3>6.1 Session Cookies</h3>
+            <p>These cookies are temporary and are deleted when you close your browser.</p>
+
+            <h3>6.2 Persistent Cookies</h3>
+            <p>These cookies remain on your device for a specified period or until you delete them.</p>
+          </section>
+
+          <section class="policy-section">
+            <h2>7. Updates to This Policy</h2>
+            <p>We may update this cookie policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
+          </section>
+
+          <section class="policy-section">
+            <h2>8. Contact Us</h2>
+            <div class="contact-info">
+              <p><strong>Email:</strong> privacy@pgaccommodation.com</p>
+              <p><strong>Phone:</strong> +91 1234567890</p>
+              <p><strong>Address:</strong> 123 Main Street, City, State, India</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .policy-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .policy-header {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .policy-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .policy-date {
+    margin: 0.5rem 0 0;
+    opacity: 0.9;
+  }
+
+  .policy-content {
+    padding: 2rem;
+  }
+
+  .policy-section {
+    margin-bottom: 2rem;
+  }
+
+  .policy-section h2 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #9b59b6;
+  }
+
+  .policy-section h3 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .policy-section p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .policy-section ul {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .policy-section li {
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+
+  .contact-info p {
+    margin: 0.5rem 0;
+  }
+
+  .contact-info strong {
+    color: #2c3e50;
+  }
+
+  @media (max-width: 768px) {
+    .policy-header {
+      padding: 1.5rem;
+    }
+
+    .policy-title {
+      font-size: 1.5rem;
+    }
+
+    .policy-content {
+      padding: 1.5rem;
+    }
+  }
+</style> 

@@ -1,0 +1,612 @@
+<%- layout("/layouts/boilerplate.ejs") %>
+
+<%
+function getAmenityIcon(amenity) {
+  const icons = {
+    'AC': 'snowflake',
+    'WiFi': 'wifi',
+    'Parking': 'parking',
+    'Kitchen': 'utensils',
+    'TV': 'tv',
+    'Laundry': 'tshirt',
+    'Security': 'shield-alt',
+    'Gym': 'dumbbell'
+  };
+  return icons[amenity] || 'check';
+}
+%>
+
+
+<button class="back-button" onclick="goBack()">
+  <i class="fas fa-arrow-left"></i>
+</button>
+
+<div class="edit-listing-container">
+  <div class="edit-listing-wrapper">
+    <div class="edit-header">
+      <i class="fas fa-edit"></i>
+      <h2>Edit Listing</h2>
+      <p>Update your property information</p>
+    </div>
+
+    <form
+      method="POST"
+      action="/listings/<%= listing._id %>?_method=PUT"
+      class="edit-form"
+      enctype="multipart/form-data"
+    >
+      <!-- Owner Profile Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="fas fa-user-circle"></i>
+          <h4>Owner Profile</h4>
+        </div>
+
+        <div class="form-group">
+          <label for="userName" class="form-label">
+            <i class="fas fa-user"></i>
+            Full Name
+          </label>
+          <input
+            name="listing[userName]"
+            type="text"
+            value="<%= listing.userName %>"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">
+            Please provide your full name.
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="phoneNumber" class="form-label">
+              <i class="fas fa-phone"></i>
+              Phone Number
+            </label>
+            <input
+              name="listing[phoneNumber]"
+              type="tel"
+              pattern="[0-9]{10}"
+              value="<%= listing.phoneNumber %>"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide a valid 10-digit phone number.
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="email" class="form-label">
+              <i class="fas fa-envelope"></i>
+              Email Address
+            </label>
+            <input
+              name="listing[email]"
+              type="email"
+              value="<%= listing.email %>"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide a valid email address.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="profileImage" class="form-label">
+              <i class="fas fa-user-circle"></i>
+              Profile Picture
+            </label>
+            <div class="profile-image-container">
+              <div class="current-profile-image">
+                <img src="<%= listing.profileImage ? listing.profileImage.url : (listing.owner.profileImage ? listing.owner.profileImage.url : 'https://cdn-icons-png.flaticon.com/512/149/149071.png') %>" alt="Current Profile Picture" />
+              </div>
+              <div class="profile-image-upload">
+                <input
+                  name="listing[profileImage]"
+                  type="file"
+                  class="form-control"
+                  accept="image/*"
+                  id="profileImageInput"
+                  hidden
+                />
+                <label for="profileImageInput" class="upload-label">
+                  <i class="fas fa-camera"></i>
+                  <span>Change Profile Picture</span>
+                </label>
+                <small class="form-text text-muted">
+                  Recommended size: 200x200px. Max size: 2MB
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="adharCard" class="form-label">
+              <i class="fas fa-id-card"></i>
+              Aadhar Card
+            </label>
+            <input
+              name="listing[adharCard]"
+              type="text"
+              value="<%= listing.adharCard %>"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide your Aadhar card number.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Basic Information Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="fas fa-info-circle"></i>
+          <h4>Basic Information</h4>
+        </div>
+
+        <div class="form-group">
+          <label for="title" class="form-label">
+            <i class="fas fa-heading"></i>
+            Property Title
+          </label>
+        <input
+          name="listing[title]"
+          type="text"
+          value="<%= listing.title %>"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">
+          Please provide a title for the property.
+        </div>
+      </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="rent" class="form-label">
+              <i class="fas fa-rupee-sign"></i>
+              Monthly Rent
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">₹</span>
+              <input
+                name="listing[rent]"
+                type="number"
+                min="0"
+                step="100"
+                value="<%= listing.rent %>"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="invalid-feedback">
+              Please provide a valid rent amount.
+          </div>
+        </div>
+
+          <div class="form-group col-md-6">
+            <label for="pre_reservation_amount" class="form-label">
+              <i class="fas fa-money-bill-wave"></i>
+              Pre-Reservation Amount
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">₹</span>
+              <input
+                name="listing[pre_reservation_amount]"
+                type="number"
+                min="0"
+                step="100"
+                value="<%= listing.pre_reservation_amount %>"
+                class="form-control"
+                required
+                placeholder="Enter pre-reservation amount"
+              />
+            </div>
+            <div class="invalid-feedback">
+              Please provide a valid pre-reservation amount.
+            </div>
+            <small class="form-text text-muted">
+              This amount will be charged as an initial deposit when someone books your property.
+            </small>
+          </div>
+        </div>
+
+          <div class="form-group col-md-6">
+            <label for="location" class="form-label">
+              <i class="fas fa-map-marker-alt"></i>
+              Location
+            </label>
+          <input
+            name="listing[location]"
+            type="text"
+            value="<%= listing.location %>"
+            class="form-control"
+            required
+          />
+            <div class="invalid-feedback">
+              Please enter a valid location.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="bathrooms">
+            <i class="fas fa-bath"></i>
+            Number of Bathrooms
+          </label>
+          <input
+            name="listing[bathrooms]"
+            id="bathrooms"
+            type="number"
+            class="form-control"
+            placeholder="Enter number of bathrooms"
+            min="1"
+            value="<%= listing.bathrooms %>"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="capacity">
+            <i class="fas fa-users"></i>
+            Number of Guests
+          </label>
+          <input
+            name="listing[capacity]"
+            id="capacity"
+            type="number"
+            class="form-control"
+            placeholder="Enter number of guests"
+            min="1"
+            value="<%= listing.capacity %>"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="bedrooms">
+            <i class="fas fa-door-open"></i>
+            Number of Bedrooms
+          </label>
+          <input
+            name="listing[bedrooms]"
+            id="bedrooms"
+            type="number"
+            class="form-control"
+            placeholder="Enter number of bedrooms"
+            min="1"
+            value="<%= listing.bedrooms %>"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="availability">
+            <i class="fas fa-check-circle"></i>
+            PG Availability
+          </label>
+          <div class="availability-options">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="listing[availability]"
+                id="available"
+                value="true"
+                <%= listing.availability ? 'checked' : '' %>
+              />
+              <label class="form-check-label" for="available">
+                Available
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="listing[availability]"
+                id="unavailable"
+                value="false"
+                <%= !listing.availability ? 'checked' : '' %>
+              />
+              <label class="form-check-label" for="unavailable">
+                Not Available
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Images Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="fas fa-images"></i>
+          <h4>Property Images</h4>
+        </div>
+
+        <div class="current-images">
+          <h5>Current Images</h5>
+          <div class="image-grid">
+            <% listing.image.forEach((img, index) => { %>
+              <div class="image-preview">
+                <img src="<%= img.url %>" alt="Property Image <%= index + 1 %>" />
+                <div class="image-overlay">
+                  <div class="image-actions">
+                    <span class="image-number">Image <%= index + 1 %></span>
+                    <button type="button" class="delete-image" data-index="<%= index %>">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="image" class="form-label">
+            <i class="fas fa-upload"></i>
+            Add New Images
+          </label>
+          <div class="image-upload-container">
+            <input
+              name="listing[image]"
+              type="file"
+              class="form-control"
+              multiple
+              accept="image/*"
+              id="propertyImagesInput"
+              hidden
+            />
+            <label for="propertyImagesInput" class="upload-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span>Select Images</span>
+            </label>
+            <small class="form-text text-muted"> &nbsp;
+              You can select multiple images. Recommended size: 800x600px. Max size: 5MB per image
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="fas fa-map"></i>
+          <h4>Address Details</h4>
+        </div>
+
+        <div class="form-group">
+          <label for="street" class="form-label">
+            <i class="fas fa-road"></i>
+            Street Address
+          </label>
+          <input
+            name="listing[address][street]"
+            type="text"
+            value="<%= listing.address.street %>"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">
+            Please provide street address.
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="city" class="form-label">
+              <i class="fas fa-city"></i>
+              City
+            </label>
+            <input
+              name="listing[address][city]"
+              type="text"
+              value="<%= listing.address.city %>"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide city.
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="state" class="form-label">
+              <i class="fas fa-building"></i>
+              State
+            </label>
+            <input
+              name="listing[address][state]"
+              type="text"
+              value="<%= listing.address.state %>"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide state.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="zipCode" class="form-label">
+              <i class="fas fa-mail-bulk"></i>
+              ZIP Code
+            </label>
+          <input
+            name="listing[address][zipCode]"
+            type="text"
+            pattern="[0-9]{6}"
+              value="<%= listing.address.zipCode %>"
+            class="form-control"
+            required
+          />
+            <div class="invalid-feedback">
+              Please provide a valid 6-digit ZIP code.
+        </div>
+      </div>
+
+          <div class="form-group col-md-6">
+        <label for="country" class="form-label">
+          <i class="fas fa-globe"></i>
+          Country
+        </label>
+        <input
+          name="listing[country]"
+          type="text"
+              value="<%= listing.country %>"
+          class="form-control"
+          required
+        />
+            <div class="invalid-feedback">
+              Please provide country.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amenities Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="fas fa-list"></i>
+          <h4>Amenities</h4>
+        </div>
+
+        <div class="form-group">
+          <label for="amenities" class="form-label">
+            <i class="fas fa-check-circle"></i>
+            Available Amenities
+          </label>
+          <div class="amenities-grid">
+            <% const commonAmenities = ['AC', 'WiFi', 'Parking', 'Kitchen', 'TV', 'Laundry', 'Security', 'Gym']; %>
+            <% commonAmenities.forEach(amenity => { %>
+              <div class="amenity-checkbox">
+        <input
+                  type="checkbox"
+          name="listing[amenities]"
+                  value="<%= amenity %>"
+                  id="amenity-<%= amenity %>"
+                  <%= listing.amenities.includes(amenity) ? 'checked' : '' %>
+                />
+                <label for="amenity-<%= amenity %>">
+                  <i class="fas fa-<%= getAmenityIcon(amenity) %>"></i>
+                  <%= amenity %>
+                </label>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="fas fa-align-left"></i>
+          <h4>Description</h4>
+        </div>
+
+        <div class="form-group">
+          <label for="description" class="form-label">
+            <i class="fas fa-pencil-alt"></i>
+            Property Description
+          </label>
+          <textarea
+            name="listing[description]"
+            class="form-control"
+            rows="6"
+            required
+          ><%= listing.description %></textarea>
+        <div class="invalid-feedback">
+          Please provide a description of the property.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-save"></i>
+          Update Listing
+        </button>
+        <a href="/listings/<%= listing._id %>" class="cancel-btn">
+          <i class="fas fa-times"></i>
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+function goBack() {
+  window.history.back();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle profile image preview
+  const profileImageInput = document.getElementById('profileImageInput');
+  const currentProfileImage = document.querySelector('.current-profile-image img');
+  
+  if (profileImageInput) {
+    profileImageInput.addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentProfileImage.src = e.target.result;
+        }
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+  }
+
+  // Handle property images preview
+  const propertyImagesInput = document.getElementById('propertyImagesInput');
+  const imageGrid = document.querySelector('.image-grid');
+  
+  if (propertyImagesInput) {
+    propertyImagesInput.addEventListener('change', function(e) {
+      if (e.target.files) {
+        Array.from(e.target.files).forEach(file => {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const div = document.createElement('div');
+            div.className = 'image-preview';
+            div.innerHTML = `
+              <img src="${e.target.result}" alt="New Property Image" />
+              <div class="image-overlay">
+                <div class="image-actions">
+                  <span class="image-number">New Image</span>
+                  <button type="button" class="delete-image">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+            imageGrid.appendChild(div);
+          }
+          reader.readAsDataURL(file);
+        });
+      }
+    });
+  }
+
+  // Handle image deletion
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.delete-image')) {
+      const imagePreview = e.target.closest('.image-preview');
+      if (imagePreview) {
+        imagePreview.remove();
+      }
+    }
+  });
+});
+</script>

@@ -1,0 +1,895 @@
+<%- layout("/layouts/boilerplate.ejs") %>
+
+
+<button class="back-button" onclick="goBack()">
+  <i class="fas fa-arrow-left"></i>
+</button>
+
+<div class="listing-form-container">
+  <div class="listing-form-wrapper">
+    <div class="listing-form-header">
+      <i class="fas fa-home"></i>
+      <h2>Create New Listing</h2>
+      <p>Share your property with potential tenants</p>
+    </div>
+
+    <form id="myForm" method="POST" action="/listings" novalidate class="needs-validation listing-form" enctype="multipart/form-data">
+      <!-- User Profile Section -->
+      <div class="page" id="page0">
+        <div class="form-section">
+          <div class="section-header">
+            <i class="fas fa-user-circle"></i>
+            <h4>Owner Profile</h4>
+          </div>
+          
+          <div class="form-group">
+            <label for="userName" class="form-label">
+              <i class="fas fa-user"></i>
+              Full Name
+            </label>
+            <input
+              name="listing[userName]"
+              type="text"
+              placeholder="Enter your full name"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide your full name.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber" class="form-label">
+              <i class="fas fa-phone"></i>
+              Phone Number
+            </label>
+            <input
+              name="listing[phoneNumber]"
+              type="tel"
+              pattern="[0-9]{10}"
+              placeholder="Enter 10-digit phone number"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide a valid 10-digit phone number.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">
+              <i class="fas fa-envelope"></i>
+              Email Address
+            </label>
+            <input
+              name="listing[email]"
+              type="email"
+              placeholder="Enter your email address"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide a valid email address.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="profileImage" class="form-label">
+              <i class="fas fa-image"></i>
+              Profile Image
+            </label>
+            <div class="custom-file-upload">
+              <input
+                type="file"
+                id="profileImageInput"
+                name="listing[profileImage]"
+                accept="image/*"
+                class="form-control"
+                required
+              />
+              <div class="profile-image-preview" id="profileImagePreview"></div>
+            </div>
+            <div class="invalid-feedback">
+              Please select a profile image.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="adharCard" class="form-label">
+              <i class="fas fa-id-card"></i>
+              Aadhar Card Number
+            </label>
+            <input
+              name="listing[adharCard]"
+              type="text"
+              pattern="[0-9]{12}"
+              placeholder="Enter 12-digit Aadhar number"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide a valid 12-digit Aadhar number.
+            </div>
+          </div>
+
+          <div class="address-section">
+            <label class="form-label">
+              <i class="fas fa-map-marker-alt"></i>
+              Address Details
+            </label>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <input
+                  name="listing[address][street]"
+                  type="text"
+                  placeholder="Street Address"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please provide street address.
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <input
+                  name="listing[address][city]"
+                  type="text"
+                  placeholder="City"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please provide city.
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <input
+                  name="listing[address][state]"
+                  type="text"
+                  placeholder="State"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid state.
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <input
+                  name="listing[address][zipCode]"
+                  type="text"
+                  pattern="[0-9]{6}"
+                  placeholder="Enter 6-digit ZIP code"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid 6-digit ZIP code.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="country" class="form-label">
+                <i class="fas fa-globe"></i>
+                Country
+              </label>
+              <input
+                name="listing[country]"
+                type="text"
+                placeholder="Enter country"
+                class="form-control"
+                value="India"
+                required
+              />
+              <div class="invalid-feedback">
+                Please enter a valid country.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-primary next-btn" onclick="nextPage(1)">
+            Next <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Original Property Details Page -->
+      <div class="page" id="page1">
+        <div class="form-section">
+          <div class="section-header">
+            <i class="fas fa-info-circle"></i>
+            <h4>Property Details</h4>
+          </div>
+          
+          <div class="form-group">
+            <label for="title" class="form-label">
+              <i class="fas fa-heading"></i>
+              Home Title
+            </label>
+            <input
+              name="listing[title]"
+              type="text"
+              placeholder="Enter a descriptive title for your property"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please provide a title for the property.
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="rent" class="form-label">
+                <i class="fas fa-rupee-sign"></i>
+                Monthly Rent
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">₹</span>
+                <input
+                  name="listing[rent]"
+                  type="number"
+                  min="0"
+                  step="100"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="invalid-feedback">
+                Please provide a valid rent amount.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="pre_reservation_amount" class="form-label">
+                <i class="fas fa-money-bill-wave"></i>
+                Pre-Reservation Amount
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">₹</span>
+                <input
+                  name="listing[pre_reservation_amount]"
+                  type="number"
+                  min="0"
+                  step="100"
+                  class="form-control"
+                  required
+                  placeholder="Enter pre-reservation amount"
+                />
+              </div>
+              <div class="invalid-feedback">
+                Please provide a valid pre-reservation amount.
+              </div>
+              <small class="form-text text-muted">
+                This amount will be charged as an initial deposit when someone books your property.
+              </small>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label for="location" class="form-label">
+                <i class="fas fa-map-marker-alt"></i>
+                Location
+              </label>
+              <input
+                name="listing[location]"
+                type="text"
+                placeholder="Enter property location"
+                class="form-control"
+                required
+              />
+              <div class="invalid-feedback">Please enter a valid location.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="capacity">
+              <i class="fas fa-users"></i>
+              Number of Guests
+            </label>
+            <input
+              name="listing[capacity]"
+              id="capacity"
+              type="number"
+              class="form-control"
+              placeholder="Enter number of guests"
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="bedrooms">
+              <i class="fas fa-door-open"></i>
+              Number of Bedrooms
+            </label>
+            <input
+              name="listing[bedrooms]"
+              id="bedrooms"
+              type="number"
+              class="form-control"
+              placeholder="Enter number of bedrooms"
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="bathrooms">
+              <i class="fas fa-bath"></i>
+              Number of Bathrooms
+            </label>
+            <input
+              name="listing[bathrooms]"
+              id="bathrooms"
+              type="number"
+              class="form-control"
+              placeholder="Enter number of bathrooms"
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="availability">
+              <i class="fas fa-check-circle"></i>
+              PG Availability
+            </label>
+            <div class="availability-options">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="listing[availability]"
+                  id="available"
+                  value="true"
+                  checked
+                />
+                <label class="form-check-label" for="available">
+                  Available
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="listing[availability]"
+                  id="unavailable"
+                  value="false"
+                />
+                <label class="form-check-label" for="unavailable">
+                  Not Available
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="amenities" class="form-label">
+              <i class="fas fa-list"></i>
+              Amenities
+            </label>
+            <div class="amenities-grid">
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="AC" id="ac" class="amenity-checkbox">
+                <label for="ac">AC</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="WiFi" id="wifi" class="amenity-checkbox">
+                <label for="wifi">WiFi</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Parking" id="parking" class="amenity-checkbox">
+                <label for="parking">Parking</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Kitchen" id="kitchen" class="amenity-checkbox">
+                <label for="kitchen">Kitchen</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="TV" id="tv" class="amenity-checkbox">
+                <label for="tv">TV</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Laundry" id="laundry" class="amenity-checkbox">
+                <label for="laundry">Laundry</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Security" id="security" class="amenity-checkbox">
+                <label for="security">Security</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Gym" id="gym" class="amenity-checkbox">
+                <label for="gym">Gym</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Hot Water" id="hotwater" class="amenity-checkbox">
+                <label for="hotwater">Hot Water</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Study Table" id="studytable" class="amenity-checkbox">
+                <label for="studytable">Study Table</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Wardrobe" id="wardrobe" class="amenity-checkbox">
+                <label for="wardrobe">Wardrobe</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Bed" id="bed" class="amenity-checkbox">
+                <label for="bed">Bed</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Meals" id="meals" class="amenity-checkbox">
+                <label for="meals">Meals</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Housekeeping" id="housekeeping" class="amenity-checkbox">
+                <label for="housekeeping">Housekeeping</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="CCTV" id="cctv" class="amenity-checkbox">
+                <label for="cctv">CCTV</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Power Backup" id="powerbackup" class="amenity-checkbox">
+                <label for="powerbackup">Power Backup</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Water Purifier" id="waterpurifier" class="amenity-checkbox">
+                <label for="waterpurifier">Water Purifier</label>
+              </div>
+              <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="Common Area" id="commonarea" class="amenity-checkbox">
+                <label for="commonarea">Common Area</label>
+              </div>
+            </div>
+            <div class="invalid-feedback">Please select at least one amenity.</div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-primary next-btn" onclick="nextPage(2)">
+            <i class="fas fa-arrow-right"></i>
+            Next
+          </button>
+        </div>
+      </div>
+
+      <div class="page" id="page2">
+        <div class="form-section">
+          <div class="section-header">
+            <i class="fas fa-image"></i>
+            <h4>Description and Images</h4>
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="form-label">
+              <i class="fas fa-align-left"></i>
+              Description
+            </label>
+            <textarea
+              name="listing[description]"
+              placeholder="Describe your property in detail..."
+              class="form-control"
+              rows="5"
+              required
+            ></textarea>
+            <div class="invalid-feedback">
+              Please provide a description of the property.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-camera"></i>
+              Property Images
+            </label>
+            <div id="imageInputArea" class="image-upload-area">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Drag & drop images here or click to browse</p>
+              <span class="upload-hint">Maximum 5 images allowed</span>
+              <input
+                type="file"
+                id="imageInput"
+                name="listing[image]"
+                accept="image/*"
+                multiple
+                class="d-none"
+                required
+              />
+            </div>
+            <div id="selectedImagesContainer" class="selected-images-container"></div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary prev-btn" onclick="prevPage(2)">
+            <i class="fas fa-arrow-left"></i>
+            Previous
+          </button>
+          <button type="button" class="btn btn-primary next-btn" onclick="nextPage(3)">
+            <i class="fas fa-arrow-right"></i>
+            Next
+          </button>
+        </div>
+      </div>
+
+      <div class="page" id="page3">
+        <div class="form-section">
+          <div class="section-header">
+            <i class="fas fa-check-circle"></i>
+            <h4>Confirmation</h4>
+          </div>
+
+          <div class="confirmation-details">
+            <h3>Confirmation Details</h3>
+            <div class="confirmation-content">
+              <div class="confirmation-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Your listing will be reviewed within 24 hours</span>
+              </div>
+              <div class="confirmation-item">
+                <i class="fas fa-check-circle"></i>
+                <span>You'll receive an email confirmation once approved</span>
+              </div>
+              <div class="confirmation-item">
+                <i class="fas fa-check-circle"></i>
+                <span>You can edit your listing anytime after approval</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary prev-btn" onclick="prevPage(3)">
+            <i class="fas fa-arrow-left"></i>
+            Previous
+          </button>
+          <button type="submit" class="btn btn-success submit-btn">
+            <i class="fas fa-check"></i>
+            Submit Listing
+          </button>
+        </div>
+      </div>
+    </form>
+    <div id="message" class="message"></div>
+  </div>
+</div>
+
+<script>
+  let currentPage = 0;
+  const pages = document.querySelectorAll(".page");
+  const form = document.getElementById("myForm");
+  const imageInput = document.getElementById("imageInput");
+  const imageInputArea = document.getElementById("imageInputArea");
+  const imagePreviewsContainer = document.getElementById("imagePreviews");
+  const message = document.getElementById("message");
+  const profileImageInput = document.getElementById('profileImageInput');
+  const profileImagePreview = document.getElementById('profileImagePreview');
+
+  profileImageInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        profileImagePreview.innerHTML = `
+          <img src="${e.target.result}" alt="Profile Preview" style="max-width: 200px; max-height: 200px; margin-top: 10px;">
+        `;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      profileImagePreview.innerHTML = '';
+    }
+  });
+
+  function showPage(pageNumber) {
+    pages.forEach((page) => page.classList.remove("active"));
+    document.getElementById(`page${pageNumber}`).classList.add("active");
+    currentPage = pageNumber;
+
+    if (currentPage === 3) {
+      displayConfirmation();
+    }
+  }
+
+  function nextPage(pageNumber) {
+    const currentPageElement = document.querySelector('.page.active');
+    const nextPageElement = document.getElementById(`page${pageNumber}`);
+    
+    // Validate current page fields before proceeding
+    const currentFields = currentPageElement.querySelectorAll('input[required], select[required], textarea[required]');
+    let isValid = true;
+    
+    currentFields.forEach(field => {
+      if (!field.checkValidity()) {
+        field.classList.add('is-invalid');
+        isValid = false;
+      } else {
+        field.classList.remove('is-invalid');
+      }
+    });
+
+    if (!isValid) {
+      return;
+    }
+
+    currentPageElement.classList.remove('active');
+    nextPageElement.classList.add('active');
+    currentPage = pageNumber;
+  }
+
+  function prevPage(pageNumber) {
+    showPage(pageNumber);
+  }
+
+  imageInputArea.addEventListener("click", () => {
+    const selectedImagesContainer = document.getElementById('selectedImagesContainer');
+    const existingImages = selectedImagesContainer.querySelectorAll('.selected-image-item');
+    if (existingImages.length < 5) {
+      imageInput.click();
+    } else {
+      message.textContent = "Maximum number of images reached.";
+      message.classList.remove("text-success");
+      message.classList.add("text-danger");
+    }
+  });
+
+  imageInputArea.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    imageInputArea.classList.add("dragover");
+  });
+
+  imageInputArea.addEventListener("dragleave", () => {
+    imageInputArea.classList.remove("dragover");
+  });
+
+  imageInputArea.addEventListener("drop", (event) => {
+    event.preventDefault();
+    imageInputArea.classList.remove("dragover");
+    imageInput.files = event.dataTransfer.files;
+    handleFileChange(event);
+  });
+
+  imageInput.addEventListener("change", handleFileChange);
+
+  function handleFileChange(event) {
+    const files = event.target.files;
+    const selectedImagesContainer = document.getElementById('selectedImagesContainer');
+    const existingImages = selectedImagesContainer.querySelectorAll('.selected-image-item');
+    const existingCount = existingImages.length;
+    const maxNewImages = 5 - existingCount;
+
+    if (files.length > maxNewImages) {
+      message.textContent = `You can only upload ${maxNewImages} more image${maxNewImages === 1 ? '' : 's'}.`;
+      message.classList.remove("text-success");
+      message.classList.add("text-danger");
+      imageInput.value = "";
+      return;
+    } else {
+      message.textContent = "";
+      message.classList.remove("text-danger");
+      message.classList.remove("text-success");
+    }
+
+    // Keep track of the current index for new images
+    let currentIndex = existingCount;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const imageItem = document.createElement("div");
+        imageItem.classList.add("selected-image-item");
+
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.alt = `Selected Image ${currentIndex + 1}`;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("delete-image-btn");
+        deleteButton.innerHTML = '<i class="fas fa-times"></i>';
+
+        deleteButton.addEventListener("click", () => {
+          imageItem.remove();
+          
+          // Update the file input
+          const dt = new DataTransfer();
+          const inputFiles = imageInput.files;
+          for (let j = 0; j < inputFiles.length; j++) {
+            if (i !== j) {
+              dt.items.add(inputFiles[j]);
+            }
+          }
+          imageInput.files = dt.files;
+
+          if (imageInput.files.length === 0) {
+            message.textContent = "";
+          }
+          
+          // Update the upload area message
+          updateUploadArea();
+        });
+
+        imageItem.appendChild(img);
+        imageItem.appendChild(deleteButton);
+        selectedImagesContainer.appendChild(imageItem);
+        currentIndex++;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Update the image input area to show remaining slots
+  function updateUploadArea() {
+    const selectedImagesContainer = document.getElementById('selectedImagesContainer');
+    const existingImages = selectedImagesContainer.querySelectorAll('.selected-image-item');
+    const remainingSlots = 5 - existingImages.length;
+    
+    const uploadHint = imageInputArea.querySelector('.upload-hint');
+    if (remainingSlots > 0) {
+      uploadHint.textContent = `${remainingSlots} more image${remainingSlots === 1 ? '' : 's'} allowed`;
+      uploadHint.style.color = '#7f8c8d';
+    } else {
+      uploadHint.textContent = 'Maximum images reached';
+      uploadHint.style.color = '#e74c3c';
+    }
+  }
+
+  function displayConfirmation() {
+    const formData = new FormData(document.getElementById("myForm"));
+    const listingData = {
+      title: formData.get("listing[title]"),
+      description: formData.get("listing[description]"),
+      image: formData.getAll("listing[image]"),
+      price: formData.get("listing[rent]"),
+      location: formData.get("listing[location]"),
+      country: formData.get("listing[country]"),
+      amenities: formData.getAll("listing[amenities]"),
+      geometry: {
+        type: "Point",
+        coordinates: [0, 0]
+      },
+      // Add required user profile fields
+      userName: formData.get("listing[userName]"),
+      phoneNumber: formData.get("listing[phoneNumber]"),
+      email: formData.get("listing[email]"),
+      adharCard: formData.get("listing[adharCard]"),
+      address: {
+        street: formData.get("listing[address][street]"),
+        city: formData.get("listing[address][city]"),
+        state: formData.get("listing[address][state]"),
+        zipCode: formData.get("listing[address][zipCode]")
+      },
+      // Handle profile image
+      profileImage: {
+        filename: formData.get("listing[profileImage]")?.name || "default-profile.jpg",
+        url: formData.get("listing[profileImage]") ? URL.createObjectURL(formData.get("listing[profileImage]")) : "/images/default-profile.jpg"
+      }
+    };
+
+    // Update coordinates if map is initialized
+    if (map && marker) {
+      const latLng = marker.getLatLng();
+      listingData.geometry.coordinates = [latLng.lng, latLng.lat];
+    }
+
+    // Display confirmation details
+    const confirmationDetails = document.getElementById("confirmationDetails");
+    confirmationDetails.innerHTML = `
+      <div class="confirmation-item">
+        <i class="fas fa-user"></i>
+        <div>
+          <strong>Owner Name:</strong>
+          <span>${listingData.userName}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-phone"></i>
+        <div>
+          <strong>Phone Number:</strong>
+          <span>${listingData.phoneNumber}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-envelope"></i>
+        <div>
+          <strong>Email:</strong>
+          <span>${listingData.email}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-id-card"></i>
+        <div>
+          <strong>Aadhar Card:</strong>
+          <span>${listingData.adharCard}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <div>
+          <strong>Address:</strong>
+          <span>${listingData.address.street}, ${listingData.address.city}, ${listingData.address.state} - ${listingData.address.zipCode}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-home"></i>
+        <div>
+          <strong>Property Title:</strong>
+          <span>${listingData.title}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <div>
+          <strong>Location:</strong>
+          <span>${listingData.location}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-tag"></i>
+        <div>
+          <strong>Price:</strong>
+          <span>₹${listingData.price}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-list"></i>
+        <div>
+          <strong>Amenities:</strong>
+          <span>${listingData.amenities.join(", ")}</span>
+        </div>
+      </div>
+      <div class="confirmation-item">
+        <i class="fas fa-globe"></i>
+        <div>
+          <strong>Country:</strong>
+          <span>${listingData.country}</span>
+        </div>
+      </div>
+    `;
+
+    // Store listing data for submission
+    window.listingData = listingData;
+
+    // Show confirmation section
+    document.getElementById("confirmationSection").style.display = "block";
+    document.getElementById("myForm").style.display = "none";
+  }
+
+  function goBack() {
+    window.history.back();
+  }
+
+  window.onload = function() {
+    showPage(0);
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const amenitiesCheckboxes = document.querySelectorAll('input[name="listing[amenities][]"]');
+    const confirmAmenities = document.getElementById('confirmAmenities');
+    
+    amenitiesCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const checkedAmenities = Array.from(amenitiesCheckboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+        confirmAmenities.textContent = checkedAmenities.join(', ');
+      });
+    });
+    
+    updateUploadArea();
+  });
+</script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1nqE5JyyzL4DqyTeH169jiVwEQK6c"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://kit.fontawesome.com/your-font-awesome-kit.js"
+  crossorigin="anonymous"
+></script>

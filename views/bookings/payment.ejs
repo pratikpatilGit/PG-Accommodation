@@ -1,0 +1,148 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container-fluid px-4 py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="payment-card">
+        <div class="payment-header <%= payment.status === 'succeeded' ? 'success' : payment.status === 'failed' ? 'error' : 'warning' %>">
+          <div class="status-icon">
+            <% if(payment.status === 'succeeded') { %>
+              <i class="fas fa-check-circle"></i>
+            <% } else if(payment.status === 'failed') { %>
+              <i class="fas fa-times-circle"></i>
+            <% } else { %>
+              <i class="fas fa-exclamation-circle"></i>
+            <% } %>
+          </div>
+          <h3 class="status-title">Payment <%= payment.status.charAt(0).toUpperCase() + payment.status.slice(1) %></h3>
+        </div>
+
+        <div class="payment-content">
+          <!-- Payment Details -->
+          <div class="info-section">
+            <h4 class="section-title">
+              <i class="fas fa-receipt"></i>
+              Payment Details
+            </h4>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="label">Transaction ID</span>
+                <span class="value"><%= payment.transactionId %></span>
+              </div>
+              <div class="info-item">
+                <span class="label">Amount</span>
+                <span class="value">₹<%= payment.amount.toLocaleString("en-IN") %></span>
+              </div>
+              <div class="info-item">
+                <span class="label">Method</span>
+                <span class="value"><%= payment.method %></span>
+              </div>
+              <div class="info-item">
+                <span class="label">Status</span>
+                <span class="value status-badge <%= payment.status %>">
+                  <%= payment.status.charAt(0).toUpperCase() + payment.status.slice(1) %>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="label">Date</span>
+                <span class="value"><%= payment.timestamp.toLocaleString() %></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Details -->
+          <div class="info-section">
+            <h4 class="section-title">
+              <i class="fas fa-calendar-alt"></i>
+              Booking Details
+            </h4>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="label">Property</span>
+                <span class="value"><%= payment.booking.listing.title %></span>
+              </div>
+              <div class="info-item">
+                <span class="label">Check-in</span>
+                <span class="value"><%= payment.booking.startDate.toLocaleDateString() %></span>
+              </div>
+              <div class="info-item">
+                <span class="label">Check-out</span>
+                <span class="value"><%= payment.booking.endDate.toLocaleDateString() %></span>
+              </div>
+              <div class="info-item">
+                <span class="label">Total Amount</span>
+                <span class="value">₹<%= payment.booking.totalPrice.toLocaleString("en-IN") %></span>
+              </div>
+            </div>
+          </div>
+
+          <% if (payment.status === 'succeeded' && !payment.refundDetails) { %>
+            <!-- Refund Section -->
+            <div class="info-section">
+              <h4 class="section-title">
+                <i class="fas fa-undo"></i>
+                Request Refund
+              </h4>
+              <form action="/payments/<%= payment._id %>/refund" method="POST" class="refund-form">
+                <div class="form-group">
+                  <label for="refundReason">Reason for Refund</label>
+                  <textarea class="form-control" id="refundReason" name="reason" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn-refund">
+                  <i class="fas fa-undo"></i>
+                  Request Refund
+                </button>
+              </form>
+            </div>
+          <% } %>
+
+          <% if (payment.refundDetails) { %>
+            <!-- Refund Details -->
+            <div class="info-section">
+              <h4 class="section-title">
+                <i class="fas fa-info-circle"></i>
+                Refund Details
+              </h4>
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="label">Refund ID</span>
+                  <span class="value"><%= payment.refundDetails.refundId || 'N/A' %></span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Amount</span>
+                  <span class="value">₹<%= payment.refundDetails.refundAmount ? payment.refundDetails.refundAmount.toLocaleString("en-IN") : 'N/A' %></span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Status</span>
+                  <span class="value status-badge <%= payment.refundDetails.refundStatus %>">
+                    <%= payment.refundDetails.refundStatus || 'N/A' %>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Reason</span>
+                  <span class="value"><%= payment.refundDetails.refundReason || 'N/A' %></span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Requested on</span>
+                  <span class="value"><%= payment.refundDetails.refundedAt ? new Date(payment.refundDetails.refundedAt).toLocaleString() : 'N/A' %></span>
+                </div>
+              </div>
+            </div>
+          <% } %>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <a href="/bookings/<%= payment.booking._id %>" class="btn-primary">
+              <i class="fas fa-eye"></i>
+              View Booking Details
+            </a>
+            <a href="/listings" class="btn-secondary">
+              <i class="fas fa-home"></i>
+              Back to Listings
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

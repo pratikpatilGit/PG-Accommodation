@@ -1,0 +1,185 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container-fluid px-4 py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="policy-card">
+        <div class="policy-header">
+          <h1 class="policy-title">Privacy Policy</h1>
+          <p class="policy-date">Last updated: <%= new Date().toLocaleDateString() %></p>
+        </div>
+
+        <div class="policy-content">
+          <section class="policy-section">
+            <h2>1. Introduction</h2>
+            <p>Welcome to PG Accommodation. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
+          </section>
+
+          <section class="policy-section">
+            <h2>2. Information We Collect</h2>
+            <h3>2.1 Personal Information</h3>
+            <ul>
+              <li>Name and contact information</li>
+              <li>Email address</li>
+              <li>Phone number</li>
+              <li>Payment information</li>
+              <li>Booking history</li>
+              <li>Property preferences</li>
+            </ul>
+
+            <h3>2.2 Technical Information</h3>
+            <ul>
+              <li>IP address</li>
+              <li>Browser type and version</li>
+              <li>Device information</li>
+              <li>Operating system</li>
+              <li>Time zone setting</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>3. How We Use Your Information</h2>
+            <p>We use your personal information to:</p>
+            <ul>
+              <li>Process your bookings and payments</li>
+              <li>Communicate with you about your bookings</li>
+              <li>Send you important updates and notifications</li>
+              <li>Improve our services and website</li>
+              <li>Prevent fraud and ensure security</li>
+              <li>Comply with legal obligations</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>4. Data Security</h2>
+            <p>We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. These measures include:</p>
+            <ul>
+              <li>Encryption of sensitive data</li>
+              <li>Regular security assessments</li>
+              <li>Secure payment processing</li>
+              <li>Access controls and authentication</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>5. Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+              <li>Access your personal data</li>
+              <li>Correct inaccurate data</li>
+              <li>Request deletion of your data</li>
+              <li>Object to data processing</li>
+              <li>Data portability</li>
+              <li>Withdraw consent</li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2>6. Contact Us</h2>
+            <p>If you have any questions about this privacy policy or our data practices, please contact us at:</p>
+            <div class="contact-info">
+              <p><strong>Email:</strong> privacy@pgaccommodation.com</p>
+              <p><strong>Phone:</strong> +91 1234567890</p>
+              <p><strong>Address:</strong> 123 Main Street, City, State, India</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .policy-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .policy-header {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .policy-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .policy-date {
+    margin: 0.5rem 0 0;
+    opacity: 0.9;
+  }
+
+  .policy-content {
+    padding: 2rem;
+  }
+
+  .policy-section {
+    margin-bottom: 2rem;
+  }
+
+  .policy-section h2 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+  }
+
+  .policy-section h3 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .policy-section p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .policy-section ul {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .policy-section li {
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+
+  .contact-info p {
+    margin: 0.5rem 0;
+  }
+
+  .contact-info strong {
+    color: #2c3e50;
+  }
+
+  @media (max-width: 768px) {
+    .policy-header {
+      padding: 1.5rem;
+    }
+
+    .policy-title {
+      font-size: 1.5rem;
+    }
+
+    .policy-content {
+      padding: 1.5rem;
+    }
+  }
+</style> 

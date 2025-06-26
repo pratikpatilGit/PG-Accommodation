@@ -1,0 +1,120 @@
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #eff1f2 !important;
+  /* background: linear-gradient(135deg, #ffffff 0%, #accae8 100%); */
+
+}
+
+
+.show-card {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+
+.amenities-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  border-color: rgb(0, 174, 255) !important;
+}
+
+.amenity-item i {
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.amenity-item:hover {
+  background-color: rgba(37, 173, 241, 0.934) !important;
+  color: solid black;
+}
+
+.submit-button {
+    width: 100px;
+    margin-left: 300px;
+  }
+  
+  .select-range {
+    margin-top: 10px !important;
+    width: 350px !important;
+    margin-left: 50px !important;
+  }
+  
+  /* .card-header {
+    background-color: #6e7174 !important;
+    border-color: white !important;
+    border-radius: 20px !important;
+    height: 60px;
+    align-items: center;
+  } */
+  
+  .range-price {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+  
+  .filter {
+    align-items: center;
+  }
+  
+  .no-gutters {
+    padding: 0% !important;
+  }
+  
+  .main-img {
+    border-radius: 2rem !important;
+    background-color: #689dec;
+    height: 350px !important;
+  }
+  
+  
+  .main-image-2 {
+    margin: 1rem;
+    margin-left: 150px;
+    margin-top: 30px;
+    height: 200px !important;
+    width: 350px;
+  }
+  
+  .your-home {
+    color: black;
+    font-weight: bold;  
+    margin-left: 100px;
+    font-family: Arial, sans-serif; 
+    font-size: xx-large;
+    margin-top: 20px;
+  }
+  
+  .dropdown-menu-card {
+    max-height: 200px;
+    overflow-y: auto;
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px; 
+  }
+  
+  .dropdown-menu-card .list-group-item {
+    flex: 0 0 auto; 
+    padding: 5px; 
+  }
+  
+  

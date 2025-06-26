@@ -1,0 +1,390 @@
+  .booking-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .booking-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .booking-header {
+    padding: 2rem;
+    text-align: center;
+    color: white;
+  }
+
+  .booking-header.success {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+  }
+
+  .booking-header.error {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+  }
+
+  .booking-header.warning {
+    background: linear-gradient(135deg, #f1c40f, #f39c12);
+  }
+
+  .status-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .status-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .booking-content {
+    padding: 2rem;
+  }
+
+  .info-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .section-title {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title i {
+    color: #3498db;
+  }
+
+  .property-details-section {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .property-info {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0;
+    background: white;
+  }
+
+  .property-image-container {
+    position: relative;
+    height: 100%;
+    min-height: 400px;
+  }
+
+  .property-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .property-price {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .price-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .price-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .property-details {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .property-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+  }
+
+  .property-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .property-location {
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .property-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .feature-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .feature:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature i {
+    font-size: 1.5rem;
+    color: #3498db;
+  }
+
+  .feature-label {
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .feature-value {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+
+  .property-description {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+
+  .description-title {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin: 0 0 1rem 0;
+  }
+
+  .description-text {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .info-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .info-item .label {
+    display: block;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .info-item .value {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .status-badge.succeeded {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+  }
+
+  .status-badge.failed {
+    background: rgba(231, 76, 60, 0.1);
+    color: #c0392b;
+  }
+
+  .status-badge.pending {
+    background: rgba(241, 196, 15, 0.1);
+    color: #f39c12;
+  }
+
+  .payment-status {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .payment-details {
+    margin: 1rem 0 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .btn-primary {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #3498db;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+  }
+
+  .btn-danger {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #e74c3c;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-danger:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+  }
+
+  .cancel-form {
+    flex: 1;
+    margin: 0;
+  }
+
+  .cancel-form .btn-danger {
+    width: 100%;
+    margin: 0;
+  }
+
+  @media (max-width: 992px) {
+    .property-info {
+      grid-template-columns: 1fr;
+    }
+
+    .property-image-container {
+      min-height: 300px;
+    }
+
+    .feature-group {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .feature-group {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .action-buttons {
+      flex-direction: column;
+    }
+    
+    .cancel-form {
+      width: 100%;
+    }
+  }
+
+  .status-message {
+    margin: 1rem 0 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+
+  .reservation-notice {
+    grid-column: 1 / -1;
+    background: #fff3cd;
+    border-color: #ffeeba;
+  }
+
+  .reservation-notice .label {
+    color: #856404;
+  }
+
+  .reservation-notice .value {
+    color: #856404;
+    font-weight: 600;
+  }
+
+  .payment-required {
+    background: #fff3cd;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ffeeba;
+  }
+
+  .payment-message {
+    margin: 1rem 0 0;
+    color: #856404;
+    line-height: 1.6;
+  }

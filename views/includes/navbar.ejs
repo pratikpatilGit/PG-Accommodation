@@ -1,0 +1,93 @@
+<nav class="navbar navbar-expand-lg custom-navbar sticky-top shadow-sm px-2 py-3">
+  <!-- Brand / Logo (Left) -->
+  <a class="navbar-brand d-flex align-items-center gap-2 ps-4" href="/listings">
+    <i class="fas fa-home text-primary"></i>
+    <span class="fw-bold">PG Accommodation</span>
+  </a>
+
+  <!-- Hamburger Button (Mobile) -->
+  <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar Content -->
+  <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+    <!-- Navigation Links (Right) -->
+    <ul class="navbar-nav me-3 mb-2 mb-lg-0 gap-lg-3 gap-2">
+      <li class="nav-item">
+        <a class="nav-link" href="/listings">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/listings/new">Owner Account</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/favorites">Favorites</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/bookings">My Bookings</a>
+      </li>
+    </ul>
+
+    <!-- Auth Buttons (Right Side) -->
+    <% if (!currUser) { %>
+  <div class="d-flex align-items-center gap-2 ms-2">
+    <a href="/login" class="btn btn-outline-primary px-4">Login</a>
+    <a href="/signup" class="btn btn-primary px-4 py-2">Sign Up</a>
+  </div>
+    <% } else { %>
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
+           
+          <div class="text-muted d-none d-md-block">
+            <small><%= currUser.email %> &nbsp;</small>
+            <span class="border border-primary rounded-circle px-3 py-2 mx-auto"><%= currUser.email.charAt(0).toUpperCase() %></span>
+          </div>
+        </div>
+        <a href="/logout" class="btn btn-danger px-3">Logout</a>
+      </div>
+    <% } %>
+  </div>
+</nav>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const navbar = document.getElementById('verticalNavbar');
+  const toggleBtn = document.getElementById('navbarToggle');
+  const closeBtn = document.getElementById('closeNavbar');
+  
+  // Open navbar
+  toggleBtn.addEventListener('click', function() {
+    navbar.classList.add('show');
+    toggleBtn.classList.add('hidden');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Close navbar
+  closeBtn.addEventListener('click', function() {
+    navbar.classList.remove('show');
+    toggleBtn.classList.remove('hidden');
+    document.body.style.overflow = '';
+  });
+
+  // Close navbar when clicking outside
+  document.addEventListener('click', function(event) {
+    if (!navbar.contains(event.target) && !toggleBtn.contains(event.target)) {
+      navbar.classList.remove('show');
+      toggleBtn.classList.remove('hidden');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Close navbar when clicking on a link
+  const navLinks = navbar.querySelectorAll('a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      navbar.classList.remove('show');
+      toggleBtn.classList.remove('hidden');
+      document.body.style.overflow = '';
+    });
+  });
+});
+</script>
