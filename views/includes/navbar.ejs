@@ -1,18 +1,23 @@
 <nav class="navbar navbar-expand-lg custom-navbar sticky-top shadow-sm px-2 py-3">
-  <!-- Brand / Logo (Left) -->
+  <!-- Brand / Logo -->
   <a class="navbar-brand d-flex align-items-center gap-2 ps-4" href="/listings">
     <i class="fas fa-home text-primary"></i>
     <span class="fw-bold">PG Accommodation</span>
   </a>
 
-  <!-- Hamburger Button (Mobile) -->
-  <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+  <!-- Mobile Hamburger (visible only on mobile) -->
+  <button
+    class="navbar-toggler border-0 d-lg-none"
+    type="button"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#mobileNavbar"
+    data-bs-backdrop="false"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <!-- Navbar Content -->
-  <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-    <!-- Navigation Links (Right) -->
+  <!-- Desktop / Tablet Navigation (visible lg and up) -->
+  <div class="collapse navbar-collapse justify-content-end d-none d-lg-flex" id="navbarContent">
     <ul class="navbar-nav me-3 mb-2 mb-lg-0 gap-lg-3 gap-2">
       <li class="nav-item">
         <a class="nav-link" href="/listings">Home</a>
@@ -21,33 +26,80 @@
         <a class="nav-link" href="/listings/new">Owner Account</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/favorites">Favorites</a>
+        <a class="nav-link" href="/listings">Favorites</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/bookings">My Bookings</a>
       </li>
     </ul>
 
-    <!-- Auth Buttons (Right Side) -->
     <% if (!currUser) { %>
-  <div class="d-flex align-items-center gap-2 ms-2">
-    <a href="/login" class="btn btn-outline-primary px-4">Login</a>
-    <a href="/signup" class="btn btn-primary px-4 py-2">Sign Up</a>
-  </div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="/login" class="btn btn-outline-primary px-4 py-2">Login</a>
+      <a href="/signup" class="btn btn-primary px-4 py-2">Sign Up</a>
+    </div>
     <% } else { %>
-      <div class="d-flex align-items-center gap-3">
-        <div class="d-flex align-items-center gap-2">
-           
-          <div class="text-muted d-none d-md-block">
-            <small><%= currUser.email %> &nbsp;</small>
-            <span class="border border-primary rounded-circle px-3 py-2 mx-auto"><%= currUser.email.charAt(0).toUpperCase() %></span>
-          </div>
+    <div class="d-flex align-items-center gap-3">
+      <div class="text-muted d-none d-md-block">
+        <small><%= currUser.email %></small>
+        <span class="border border-primary border-2 rounded-circle px-3 py-2 mx-auto d-inline-block">
+          <%= currUser.email.charAt(0).toUpperCase() %>
+        </span>
+      </div>
+      <a href="/logout" class="btn btn-danger px-3">Logout</a>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- Mobile Offcanvas Drawer -->
+  <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="mobileNavbar">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Menu</h5>
+      <button
+        type="button"
+        class="btn-close text-reset"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column gap-3">
+      <ul class="navbar-nav mb-2 gap-2">
+        <li class="nav-item">
+          <a class="nav-link" href="/listings">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/listings/new">Owner Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/listings">Favorites</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bookings">My Bookings</a>
+        </li>
+      </ul>
+
+      <% if (!currUser) { %>
+      <div class="d-flex flex-column gap-2 mt-2">
+        <a href="/login" class="btn btn-outline-primary px-4 py-2">Login</a>
+        <a href="/signup" class="btn btn-primary px-4 py-2">Sign Up</a>
+      </div>
+      <% } else { %>
+      <div class="d-flex flex-column gap-3 mt-2">
+        <div class="text-muted d-flex align-items-center gap-2">
+          <small><%= currUser.email %></small>
+          <span
+            class="border border-primary border-2 rounded-circle px-3 py-2 mx-auto d-inline-block"
+          >
+            <%= currUser.email.charAt(0).toUpperCase() %>
+          </span>
         </div>
         <a href="/logout" class="btn btn-danger px-3">Logout</a>
       </div>
-    <% } %>
+      <% } %>
+    </div>
   </div>
 </nav>
+
 
 
 
@@ -91,3 +143,4 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
