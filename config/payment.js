@@ -15,16 +15,11 @@ const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
 if (missingEnvVars.length > 0) {
     throw new Error(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
 }
-
-// Validate Razorpay credentials format
 if (!process.env.RAZORPAY_KEY_ID.startsWith('rzp_')) {
     throw new Error('Invalid Razorpay Key ID format. It should start with "rzp_"');
 }
-
-// Log Razorpay configuration (without exposing the secret)
 console.log('Initializing Razorpay with Key ID:', process.env.RAZORPAY_KEY_ID);
 
-// Razorpay configuration
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET
@@ -33,9 +28,8 @@ const razorpay = new Razorpay({
 // Test Razorpay connection asynchronously
 const testRazorpayConnection = async () => {
     try {
-        // Create a test order instead of listing orders
         const order = await razorpay.orders.create({
-            amount: 100, // amount in smallest currency unit
+            amount: 100, 
             currency: "INR",
             receipt: "test_receipt_" + Date.now()
         });
@@ -48,7 +42,6 @@ const testRazorpayConnection = async () => {
             code: error.code,
             response: error.response ? error.response.data : null
         });
-        // Don't throw error, just log it
         console.warn('Warning: Razorpay connection test failed. Please check your credentials.');
         return false;
     }
