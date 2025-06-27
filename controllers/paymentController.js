@@ -46,22 +46,15 @@ const generateReceipt = async (payment, booking) => {
 // Send SMS notification
 const sendSMS = async (to, message) => {
   try {
-    // Format the phone number for Twilio (add +91 for Indian numbers)
-    // Remove any existing country code if present
     let cleanNumber = to.replace(/^\+91/, '');
-    
-    // Add the +91 country code
     const formattedNumber = `+91${cleanNumber}`;
-    
     console.log(`Sending SMS to formatted number: ${formattedNumber}`);
     
-    // Check if Twilio phone number is properly configured
     if (!process.env.TWILIO_PHONE_NUMBER) {
       console.error("Twilio phone number not configured in environment variables");
       return null;
     }
     
-    // Make sure the Twilio phone number is in E.164 format
     const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER.startsWith('+') 
       ? process.env.TWILIO_PHONE_NUMBER 
       : `+${process.env.TWILIO_PHONE_NUMBER}`;
@@ -77,7 +70,6 @@ const sendSMS = async (to, message) => {
     return response;
   } catch (error) {
     console.error("SMS sending failed:", error);
-    // Don't throw the error, just log it and continue
     return null;
   }
 };
@@ -382,63 +374,3 @@ module.exports.processRefund = wrapAsync(async (req, res) => {
     res.redirect(`/bookings/${id}`);
   }
 });
-
-// Example of real Stripe integration (commented out)
-/*
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
-module.exports.initiateStripePayment = wrapAsync(async (req, res) => {
-  const { bookingId } = req.params;
-  const booking = await Booking.findById(bookingId);
-
-  // Create Stripe payment intent
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: booking.totalPrice * 100, // Amount in cents
-    currency: 'inr',
-    metadata: {
-      bookingId: booking._id.toString(),
-    },
-  });
-
-  // Create payment record
-  const payment = new Payment({
-    booking: bookingId,
-    transactionId: paymentIntent.id,
-    amount: booking.totalPrice,
-    method: 'stripe',
-    status: 'pending',
-    paymentDetails: {
-      paymentIntent,
-    },
-  });
-
-  await payment.save();
-
-  // Return client secret for Stripe Elements
-  res.json({
-    clientSecret: paymentIntent.client_secret,
-  });
-});
-
-module.exports.handleStripeWebhook = wrapAsync(async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  const event = stripe.webhooks.constructEvent(
-    req.body,
-    sig,
-    process.env.STRIPE_WEBHOOK_SECRET
-  );
-
-  if (event.type === 'payment_intent.succeeded') {
-    const paymentIntent = event.data.object;
-    const payment = await Payment.findOne({
-      transactionId: paymentIntent.id,
-    });
-
-    if (payment) {
-      await payment.updateStatus('succeeded');
-    }
-  }
-
-  res.json({ received: true });
-});
-*/ 
