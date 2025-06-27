@@ -358,7 +358,7 @@ button:hover {
   display: flex;
   gap: 15px;
   margin-bottom: 10px;
-  padding: 10px 0;
+  padding: 12px 0;
   border-top: 1px solid #eee;
 }
 
@@ -778,3 +778,65 @@ button:hover {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 }
+
+
+
+
+/* changes */
+.hero-section {
+  padding: 2rem 0;
+}
+
+.hero-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+/* Adjust title and subtitle font size on small screens */
+@media (max-width: 575.98px) {
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Remove big background from form-check labels */
+.amenities-grid .form-check-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  width: 100%;
+}
+
+/* Make checkboxes inline-flex with icon and text */
+.amenities-grid .form-check {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Make the grid more compact on small screens */
+@media (max-width: 576px) {
+  .amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
