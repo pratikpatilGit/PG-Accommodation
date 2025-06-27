@@ -86,11 +86,14 @@
       <% } else { %>
       <div class="d-flex flex-column gap-3 mt-2">
         <div class="text-muted d-flex align-items-center gap-2">
-          <small><%= currUser.email %></small>
+        <!--  <small><%= currUser.email %></small>
           <span
             class="border border-primary border-2 rounded-circle px-3 py-2 mx-auto d-inline-block"
           >
             <%= currUser.email.charAt(0).toUpperCase() %>
+          </span>  -->
+          <span class="border border-primary text-primary px-3 py-2 rounded rounded-pill">
+             <%= currUser.email %>
           </span>
         </div>
         <a href="/logout" class="btn btn-danger px-3">Logout</a>
