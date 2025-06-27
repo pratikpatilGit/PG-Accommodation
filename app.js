@@ -74,11 +74,6 @@ const sessionOption = {
   },
 };
 
-// app.get("/", (req, res) => {
-//   res.send("Hello, i am root");
-// });
-
-
 app.use(session(sessionOption));
 app.use(flash());
 
@@ -94,16 +89,6 @@ app.use((req, res, next) => {
   res.locals.currUser = req.user;
   next();
 });
-
-// app.get("/demouser", async (req, res) => {
-//   let fakeUser = new User({
-//     email: "krishna@gmail.com",
-//     username: "krishna",
-//   });
-
-//   let registeredUser = await User.register(fakeUser, "helloworld");
-//   res.send(registeredUser);
-// });
 
 //listing router
 app.use("/listings", listingRouter);
@@ -123,66 +108,43 @@ app.use("/payments", paymentRouter);
 // legal Router
 app.use("/", legalRouter);
 
-// app.get("/testListing", async (req, res) => {
-//   let sampleList = new Listing({
-//     title: "Cozy PG Near Nashik Road",
-//     location: "Nashik Road, Nashik, Maharashtra, India",
-//     amenities: ["Wi-Fi", "AC", "Attached Bathroom", "Food"],
-//     rent: 5000,
-//     availability: true,
-//     // photos: ['https://example.com/pg1.jpg', 'https://example.com/pg2.jpg'],
-//     description:
-//       "A comfortable and affordable PG located near Nashik Road. Offers Wi-Fi, AC, attached bathroom, and food. Ideal for students and working professionals.",
-//     // owner: '12345', // Replace with the actual owner's ID
-//     // reviews: []
-//   });
-
-//   await sampleList.save();
-//   console.log("sample is saved");
-//   res.send("successful testing");
-// });
-
-// ✅ Filter Listings API (Supports Rent & Amenities Filtering)
 app.get("/filter", async (req, res) => {
   try {
-    let { gender, minRent, maxRent, amenities } = req.query;
+    if (req.query.all === "true") {
+      const listings = await Listing.find().select("image.url rent amenities firstName lastName title _id location");
+      return res.json({ success: true, listings });
+    }
+
+    let { minRent, maxRent, amenities } = req.query;
 
     minRent = Number(minRent) || 0;
     maxRent = Number(maxRent) || Infinity;
 
-    let filterAmenities = amenities ? amenities.split(",") : [];
-    let filterGenders = gender ? gender.split(",") : [];
+    const filterAmenities = amenities ? amenities.split(",") : [];
 
-    let query = { rent: { $gte: minRent, $lte: maxRent } };
-
-    // Apply gender filter only if selected
-    if (filterGenders.length > 0) {
-      query.gender = { $in: filterGenders }; // Filter listings by gender
-    }
+    const query = {
+      rent: { $gte: minRent, $lte: maxRent }
+    };
 
     if (filterAmenities.length > 0) {
-      // Correct approach for array of strings (case-insensitive, any match):
-      query.amenities = { $in: filterAmenities.map(amenity => new RegExp(amenity, 'i')) }; 
+      query.amenities = {
+        $in: filterAmenities.map(a => new RegExp(a, "i"))
+      };
     }
 
-    console.log("Query:", JSON.stringify(query, null, 2)); // Debugging: Check the generated query
+    const listings = await Listing.find(query).select("image.url rent amenities firstName lastName title _id location");
 
-    const listings = await Listing.find(query).select("image.url rent amenities firstName lastName title _id");
-
-    console.log("Listings found:", listings);
-
-    if (!listings || listings.length === 0) {
-      return res.status(404).json({ success: false, message: "No listings found matching your criteria." });
-    }
-
-    res.json({ success: true, listings });
+    res.json({
+      success: true,
+      listings
+    });
 
   } catch (error) {
     console.error("Error fetching filtered listings:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error.message, 
+      error: error.message
     });
   }
 });
