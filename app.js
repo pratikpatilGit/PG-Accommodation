@@ -90,6 +90,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Redirect root path to /listings
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 //listing router
 app.use("/listings", listingRouter);
 
