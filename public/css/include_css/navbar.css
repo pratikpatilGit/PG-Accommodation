@@ -78,6 +78,23 @@
 }
 
 
+/* Style the nav links in the drawer */
+.offcanvas-body .nav-link {
+  padding: 0.75rem 1rem;
+}
+
+/* Style for close button and title (optional) */
+.offcanvas-header {
+  border-bottom: 1px solid #eee;
+}
+
+.offcanvas-end {
+  width: 260px;
+}
+
+
+
+
 
 
 
