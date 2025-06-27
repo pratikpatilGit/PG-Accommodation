@@ -9,28 +9,47 @@
 <!-- Hero Section -->
 <div class="hero-section mb-5">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <h1 class="hero-title">Find Your Perfect Stay</h1>
-        <p class="hero-subtitle">Discover comfortable and affordable accommodations for your next adventure</p>
-        <div class="search-box">
-          <div class="input-group">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="bi bi-search"></i>
-            </span>
-            <input type="text" class="form-control border-start-0" placeholder="Search by location...">
-            <button class="btn btn-primary px-4">Search</button>
-          </div>
+    <div class="row align-items-center gy-4">
+      <!-- Image -->
+      <div class="col-lg-6 order-lg-2 text-center">
+        <div class="hero-image">
+          <img
+            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            alt="Hero Image"
+            class="img-fluid rounded shadow"
+          />
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="hero-image">
-          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Hero Image">
+
+      <!-- Text and Search -->
+      <div class="col-lg-6 order-lg-1 text-center text-lg-start">
+        <h1 class="hero-title">Find Your Perfect Stay</h1>
+        <p class="hero-subtitle">
+          Discover comfortable and affordable accommodations for your next adventure
+        </p>
+        <div class="search-box mt-3">
+          <form class="d-flex">
+            <div class="input-group w-100">
+              <span class="input-group-text bg-white">
+                <i class="bi bi-search"></i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search location..."
+              />
+              <!-- Button only visible on md and up -->
+              <button class="btn btn-primary d-none d-md-inline-block">
+                Search
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 
 <div class="">
   <!-- Filter Section -->
@@ -72,7 +91,7 @@
       </div>
       <div class="modal-body">
           <!-- Gender Filter -->
-          <div class="filter-group">
+          <!-- <div class="filter-group">
             <h6 class="filter-title">
               <i class="fas fa-venus-mars me-2"></i>Gender Preference
             </h6>
@@ -94,7 +113,7 @@
               <label class="form-check-label" for="genderOther">Other</label>
               </div>
             </div>
-        </div>
+        </div> -->
 
           <!-- Rent Range -->
           <div class="filter-group">
@@ -112,48 +131,131 @@
         </div>
 
           <!-- Amenities -->
-          <div class="filter-group">
-            <h6 class="filter-title">Amenities</h6>
-            <div class="amenities-grid">
-              <div class="form-check">
-                <input class="form-check-input amenities-input" type="checkbox" id="amenityAC" value="AC">
-                <label class="form-check-label" for="amenityAC">
-                  <i class="fas fa-snowflake"></i> AC
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input amenities-input" type="checkbox" id="amenityWiFi" value="Wi-Fi">
-                <label class="form-check-label" for="amenityWiFi">
-                  <i class="fas fa-wifi"></i> Wi-Fi
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input amenities-input" type="checkbox" id="amenityParking" value="Parking">
-                <label class="form-check-label" for="amenityParking">
-                  <i class="fas fa-parking"></i> Parking
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input amenities-input" type="checkbox" id="amenityGym" value="Gym">
-                <label class="form-check-label" for="amenityGym">
-                  <i class="fas fa-dumbbell"></i> Gym
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input amenities-input" type="checkbox" id="amenityFood" value="Food">
-                <label class="form-check-label" for="amenityFood">
-                  <i class="fas fa-utensils"></i> Food
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input amenities-input" type="checkbox" id="amenityLaundry" value="Laundry">
-                <label class="form-check-label" for="amenityLaundry">
-                  <i class="fas fa-tshirt"></i> Laundry
-                </label>
-              </div>
-            </div>
+          <div class="filter-group"> 
+  <h6 class="filter-title">Amenities</h6>
+  <div class="amenities-grid">
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityAC" value="AC">
+      <label class="form-check-label" for="amenityAC">
+        <i class="fas fa-snowflake"></i> AC
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityWiFi" value="WiFi">
+      <label class="form-check-label" for="amenityWiFi">
+        <i class="fas fa-wifi"></i> WiFi
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityParking" value="Parking">
+      <label class="form-check-label" for="amenityParking">
+        <i class="fas fa-parking"></i> Parking
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityKitchen" value="Kitchen">
+      <label class="form-check-label" for="amenityKitchen">
+        <i class="fas fa-utensils"></i> Kitchen
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityTV" value="TV">
+      <label class="form-check-label" for="amenityTV">
+        <i class="fas fa-tv"></i> TV
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityLaundry" value="Laundry">
+      <label class="form-check-label" for="amenityLaundry">
+        <i class="fas fa-tshirt"></i> Laundry
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenitySecurity" value="Security">
+      <label class="form-check-label" for="amenitySecurity">
+        <i class="fas fa-shield-alt"></i> Security
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityGym" value="Gym">
+      <label class="form-check-label" for="amenityGym">
+        <i class="fas fa-dumbbell"></i> Gym
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityHotWater" value="Hot Water">
+      <label class="form-check-label" for="amenityHotWater">
+        <i class="fas fa-tint"></i> Hot Water
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityStudyTable" value="Study Table">
+      <label class="form-check-label" for="amenityStudyTable">
+        <i class="fas fa-book"></i> Study Table
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityWardrobe" value="Wardrobe">
+      <label class="form-check-label" for="amenityWardrobe">
+        <i class="fas fa-archive"></i> Wardrobe
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityBed" value="Bed">
+      <label class="form-check-label" for="amenityBed">
+        <i class="fas fa-bed"></i> Bed
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityMeals" value="Meals">
+      <label class="form-check-label" for="amenityMeals">
+        <i class="fas fa-utensils"></i> Meals
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityHousekeeping" value="Housekeeping">
+      <label class="form-check-label" for="amenityHousekeeping">
+        <i class="fas fa-broom"></i> House keeping
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityCCTV" value="CCTV">
+      <label class="form-check-label" for="amenityCCTV">
+        <i class="fas fa-video"></i> CCTV
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityPowerBackup" value="Power Backup">
+      <label class="form-check-label" for="amenityPowerBackup">
+        <i class="fas fa-bolt"></i> Power Backup
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input amenities-input" type="checkbox" id="amenityWaterPurifier" value="Water Purifier">
+      <label class="form-check-label" for="amenityWaterPurifier">
+        <i class="fas fa-water"></i> Water Purifier
+      </label>
+    </div>
+  </div>
+</div>
+
         </div>
-      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary" id="applyFilter">
@@ -243,163 +345,37 @@ document.addEventListener('DOMContentLoaded', function() {
   const filterModal = document.getElementById('filterModal');
   const applyFilterBtn = document.getElementById('applyFilter');
   const resetButton = document.getElementById('resetButton');
-  const genderInputs = document.querySelectorAll('.gender-input');
   const amenitiesInputs = document.querySelectorAll('.amenities-input');
   const minRentInput = document.getElementById('minRent');
   const maxRentInput = document.getElementById('maxRent');
+  const imageContainer = document.getElementById('imageContainer');
   const modal = new bootstrap.Modal(filterModal);
 
   // Apply filters
-  applyFilterBtn.addEventListener('click', async function() {
-    // Get selected gender
-    const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-
-    // Get selected amenities
-    const selectedAmenities = Array.from(amenitiesInputs)
-      .filter(input => input.checked)
-      .map(input => input.value);
-
-    // Get rent range
-    const minRent = minRentInput.value;
-    const maxRent = maxRentInput.value;
-
-    // Build query parameters
-    const queryParams = new URLSearchParams();
-    
-    if (selectedGender) {
-      queryParams.append('gender', selectedGender);
-    }
-    if (selectedAmenities.length > 0) {
-      queryParams.append('amenities', selectedAmenities.join(','));
-    }
-    if (minRent) {
-      queryParams.append('minRent', minRent);
-    }
-    if (maxRent) {
-      queryParams.append('maxRent', maxRent);
-    }
-
-    try {
-      const response = await fetch(`/filter?${queryParams.toString()}`);
-    const data = await response.json();
-
-      const imageContainer = document.getElementById('imageContainer');
-      imageContainer.innerHTML = '';
-
-    if (data.success && data.listings.length > 0) {
-      data.listings.forEach(listing => {
-        const cardHTML = `
-            <div class="col-lg-4 col-md-6 col-sm-12">
-              <div class="listing-card">
-                <a href="/listings/${listing._id}" class="text-decoration-none">
-                  <div class="card-wrapper">
-                    <div class="card-image">
-                      <img src="${listing.image[0]?.url}" alt="listing_img" />
-                      <div class="card-overlay">
-                        <div class="card-price">
-                          <i class="fas fa-rupee-sign"></i>
-                          ${listing.rent.toLocaleString("en-IN")}/month
-                        </div>
-                        <div class="card-actions">
-                          <button class="action-btn-heart favorite-btn" title="Add to Favorites">
-                            <i class="fas fa-heart"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-content">
-                      <div class="card-header">
-                        <div class="card-title">
-                          <h3>${listing.title}</h3>
-                          <div class="location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>${listing.location}</span>
-                          </div>
-                        </div>
-                        <div class="status-badge available">Available</div>
-                      </div>
-                      <div class="card-features">
-                        <div class="feature">
-                          <i class="fas fa-users"></i>
-                          <span>2 Guests</span>
-                        </div>
-                        <div class="feature">
-                          <i class="fas fa-door-open"></i>
-                          <span>1 Bedroom</span>
-                        </div>
-                        <div class="feature">
-                          <i class="fas fa-bath"></i>
-                          <span>1 Bath</span>
-                        </div>
-                      </div>
-                      <div class="card-footer">
-                        <div class="rating">
-                          <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                          </div>
-                          <span class="rating-count">(24 reviews)</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-        `;
-          imageContainer.insertAdjacentHTML('beforeend', cardHTML);
-      });
-    } else {
-        imageContainer.innerHTML = `
-          <div class="col-12 text-center py-5">
-            <i class="fas fa-search fa-3x mb-3 text-muted"></i>
-            <h3>No properties found</h3>
-            <p class="text-muted">Try adjusting your filters to find what you're looking for.</p>
-          </div>
-        `;
-      }
-
-      // Close the modal after applying filters
-      modal.hide();
-    } catch (error) {
-      console.error('Error applying filters:', error);
-      alert('An error occurred while applying filters. Please try again.');
-    }
+  applyFilterBtn.addEventListener('click', function() {
+    applyFilters();
+    modal.hide();
   });
 
   // Reset filters
   resetButton.addEventListener('click', function() {
-    // Reset gender to "All"
-    document.getElementById('genderAll').checked = true;
-
-    // Reset amenities
     amenitiesInputs.forEach(input => input.checked = false);
-
-    // Reset rent range
-    minRentInput.value = '';
-    maxRentInput.value = '';
-
-    // Apply the reset filters
+    minRentInput.value = "";
+    maxRentInput.value = "";
     applyFilters();
   });
 
-  // Function to apply filters
+  // Main function to fetch and render listings
   async function applyFilters() {
-    const selectedGender = document.querySelector('input[name="gender"]:checked').value;
     const selectedAmenities = Array.from(amenitiesInputs)
       .filter(input => input.checked)
       .map(input => input.value);
+
     const minRent = minRentInput.value;
     const maxRent = maxRentInput.value;
 
     const queryParams = new URLSearchParams();
-    
-    if (selectedGender) {
-      queryParams.append('gender', selectedGender);
-    }
+
     if (selectedAmenities.length > 0) {
       queryParams.append('amenities', selectedAmenities.join(','));
     }
@@ -410,11 +386,14 @@ document.addEventListener('DOMContentLoaded', function() {
       queryParams.append('maxRent', maxRent);
     }
 
+    let url = queryParams.toString()
+      ? `/filter?${queryParams.toString()}`
+      : '/filter?all=true';
+
     try {
-      const response = await fetch(`/filter?${queryParams.toString()}`);
+      const response = await fetch(url);
       const data = await response.json();
 
-      const imageContainer = document.getElementById('imageContainer');
       imageContainer.innerHTML = '';
 
       if (data.success && data.listings.length > 0) {
@@ -450,18 +429,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="status-badge available">Available</div>
                       </div>
                       <div class="card-features">
-                        <div class="feature">
-                          <i class="fas fa-users"></i>
-                          <span>2 Guests</span>
-                        </div>
-                        <div class="feature">
-                          <i class="fas fa-door-open"></i>
-                          <span>1 Bedroom</span>
-                        </div>
-                        <div class="feature">
-                          <i class="fas fa-bath"></i>
-                          <span>1 Bath</span>
-                        </div>
+                        <div class="feature"><span>2 Guests</span></div>
+                        <div class="feature"><span>1 Bedroom</span></div>
+                        <div class="feature"><span>1 Bath</span></div>
                       </div>
                       <div class="card-footer">
                         <div class="rating">
@@ -498,8 +468,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
-
-function goBack() {
-  window.history.back();
-}
 </script>
+
+
