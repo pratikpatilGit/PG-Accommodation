@@ -282,14 +282,11 @@ module.exports.getUserBookings = wrapAsync(async (req, res) => {
   // Find all listings owned by the current user
   const userListings = await Listing.find({ owner: req.user._id });
   const userListingIds = userListings.map(listing => listing._id);
-
-  // Find bookings where either:
-  // 1. The user is the guest (booked the property)
-  // 2. The user is the owner of the property
+  
   const bookings = await Booking.find({
     $or: [
       { user: req.user._id }, // User's own bookings
-      { listing: { $in: userListingIds } } // Bookings for user's properties
+      { listing: { $in: userListingIds } } 
     ]
   })
     .populate({
@@ -341,8 +338,6 @@ module.exports.deleteBooking = wrapAsync(async (req, res) => {
   try {
     // If there's a payment, handle refund if needed
     if (booking.payment && booking.payment.status === 'succeeded') {
-      // Add refund logic here if needed
-      // For now, we'll just mark the payment as refunded
       booking.payment.status = 'refunded';
       await booking.payment.save();
     }
