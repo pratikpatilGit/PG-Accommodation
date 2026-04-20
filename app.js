@@ -148,7 +148,7 @@ app.get("/filter", async (req, res) => {
     console.error("Error fetching filtered listings:", error);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: "Internal Server Error 2",
       error: error.message
     });
   }
@@ -169,7 +169,7 @@ app.use("/list", async (req, res) => {
     console.error("Error fetching listings:", error);
     res
       .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+      .json({ message: "Internal Server Error 1", error: error.message });
   }
 });
 
